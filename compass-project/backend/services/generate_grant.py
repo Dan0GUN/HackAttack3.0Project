@@ -3,8 +3,13 @@ from pydantic import BaseModel
 from openai import OpenAI
 from models.startup_profile import StartUpInfo
 import json
+import os
+from dotenv import load_dotenv
 
-client = OpenAI(api_key="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")
+load_dotenv()  
+
+api_key = os.getenv("OPENAI_API_KEY")
+client = OpenAI(api_key=api_key)
 router = APIRouter(prefix="/funding", tags=["funding"])
 
 
