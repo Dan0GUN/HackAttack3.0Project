@@ -1,0 +1,36 @@
+[
+    {
+      "id": "grant_001",
+      "title": "BC Clean Technology Fund",
+      "provider": "Province of British Columbia",
+      "summary": "Supports early-stage cleantech startups building sustainability and emissions-reduction solutions.",
+      "url": "https://example.com/bc-cleantech",
+      "regions": ["canada", "british columbia"],
+      "eligible_stages": ["mvp", "early_revenue"],
+      "sector_tags": ["cleantech", "sustainability", "climate"],
+      "funding_tags": ["grant funding", "pilot funding"],
+      "founder_tags": [],
+      "deadline": "2026-05-15T23:59:00",
+      "amount_min": 10000,
+      "amount_max": 50000,
+      "source_type": "government",
+      "source_trust_score": 0.98
+    },
+    {
+      "id": "grant_002",
+      "title": "Women Founders AI Grant",
+      "provider": "Future Innovators Foundation",
+      "summary": "Funding for AI startups led by women founders at the MVP or seed stage.",
+      "url": "https://example.com/women-ai",
+      "regions": ["canada", "global"],
+      "eligible_stages": ["mvp", "growth"],
+      "sector_tags": ["ai", "software", "saas"],
+      "funding_tags": ["grant funding", "product development"],
+      "founder_tags": ["women-led"],
+      "deadline": "2026-04-10T23:59:00",
+      "amount_min": 5000,
+      "amount_max": 25000,
+      "source_type": "foundation",
+      "source_trust_score": 0.9
+    }
+  ]
