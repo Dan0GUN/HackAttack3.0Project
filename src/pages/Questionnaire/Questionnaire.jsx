@@ -1,44 +1,44 @@
-import { CheckboxCard, For, Stack } from "@chakra-ui/react"
-import { Progress } from "@chakra-ui/react"
+import { CheckboxCard, Stack } from "@chakra-ui/react"
+import "./Questionnaire.css"
 
 function Questionnaire(){
-
     return(
-        <>
-        <Layout>
-            <h3>Diagnostic Questionnaire</h3>
-            <hr/>
-            <p>Question 1 of 6</p>
-            <h1>What stage is your startup currently in?</h1>
-        </Layout>
-        
-        <Progress.Root defaultValue={17} maxW="sm">
-            <HStack gap="5">
-                <Progress.Label>Usage</Progress.Label>
-                <Progress.Track flex="1">
-                <Progress.Range />
-                </Progress.Track>
-                <Progress.ValueText>40%</Progress.ValueText>
-            </HStack>
-        </Progress.Root>
+        <div>
+            <div>
+                <h1>Diagnostic Questionnaire</h1>
+                <hr/>
+                <p>Question 1 of 6</p>
+                <h2>What stage is your startup currently in?</h2>
 
-        <Stack maxW="320px">
-            <For each={["sm", "md", "lg"]}>
-                {(size) => (
-                <CheckboxCard.Root size={size} key={size}>
-                    <CheckboxCard.HiddenInput />
-                    <CheckboxCard.Control>
-                    <CheckboxCard.Content>
-                        <CheckboxCard.Label>Checkbox {size}</CheckboxCard.Label>
-                    </CheckboxCard.Content>
-                    <CheckboxCard.Indicator />
-                    </CheckboxCard.Control>
-                </CheckboxCard.Root>
-                )}
-            </For>
-        </Stack>
+                <div style={{width: "100%", height: "20px", backgroundColor: "#e5e7eb", borderRadius: "4px", marginBottom: "24px"}}>
+                    <div style={{width: "17%", height: "100%", backgroundColor: "#3b82f6", borderRadius: "4px"}}></div>
+                </div>
 
-        </>
+                <Stack gap="3">
+                    <CheckboxCard.Root>
+                        <CheckboxCard.HiddenInput />
+                        <CheckboxCard.Control>
+                            <CheckboxCard.Indicator />
+                            <CheckboxCard.Label className="text-black">Pre-seed / Ideation</CheckboxCard.Label>
+                        </CheckboxCard.Control>
+                    </CheckboxCard.Root>
+                    <CheckboxCard.Root>
+                        <CheckboxCard.HiddenInput />
+                        <CheckboxCard.Control>
+                            <CheckboxCard.Indicator />
+                            <CheckboxCard.Label className="text-black">Seed Stage</CheckboxCard.Label>
+                        </CheckboxCard.Control>
+                    </CheckboxCard.Root>
+                    <CheckboxCard.Root>
+                        <CheckboxCard.HiddenInput />
+                        <CheckboxCard.Control>
+                            <CheckboxCard.Indicator />
+                            <CheckboxCard.Label className="text-black">Series A</CheckboxCard.Label>
+                        </CheckboxCard.Control>
+                    </CheckboxCard.Root>
+                </Stack>
+            </div>
+        </div>
     );
 }
 
