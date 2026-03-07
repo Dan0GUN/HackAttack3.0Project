@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
+import Questionnaire from "./pages/Questionnaire/Questionnaire";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -31,6 +32,16 @@ function App() {
           element={
             <ProtectedRoute>
               <Profile />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Questionnaire (protected) */}
+        <Route
+          path="/Questionnaire"
+          element={
+            <ProtectedRoute>
+              <Questionnaire />
             </ProtectedRoute>
           }
         />
