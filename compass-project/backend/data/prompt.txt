@@ -1,0 +1,81 @@
+You are an expert startup funding researcher and advisor. 
+Search for *real startup grants, government funding programs, corporate funding opportunities, and regional incentive programs* that are currently open and relevant to:
+
+Location: {location}
+Industry: {industry}
+Stage: {stage}
+Team size: {team_size}
+Funding need: {funding_need}
+Buisness : {business_model}
+Target Market: {target_market}
+
+
+For each funding opportunity you find, provide the following structured details:
+
+1) **Name of the funding program**
+2) **Organization / government / agency offering it**
+3) **Official URL link to the application or program page**
+4) **Funding type** (grant, equity, tax credit, subsidy, prize)
+5) **Amount available**
+6) **Deadline or timeline**
+7) **Eligibility criteria**
+8) **Who to contact** (name, email, phone if available)
+9) **Which government / company / agency is offering it**
+10) **Region / coverage**
+11) **Required legal documentation**
+12) **Application requirements** (what you need to submit)
+13) **What type of project proposal they want**
+14) **What they evaluate in applications**
+15) **What financial records they expect**
+16) **Whether the startup is eligible given the information you have**
+17) **Any relevant news coverage or recent updates about this program**
+
+Then, for *each funding program*, provide:
+
+A) **A specific checklist of documents and steps needed to prepare a successful application**, including:
+   - business plan sections they expect
+   - pitch deck contents that match their priorities
+   - financial statements needed and format
+   - legal registrations/licenses required
+   - recommended talking points or narrative
+
+B) **A short justification why this funding matches the startup profile given**.
+
+Return all results in valid JSON in the following format:
+
+Return JSON in this format:
+
+[
+  {{
+    "name": "",
+    "offering_organization": "",
+    "url": "",
+    "funding_type": "",
+    "amount": "",
+    "deadline": "",
+    "eligibility": "",
+    "contact": "",
+    "region": "",
+    "requirements": {{
+      "legal_docs": "",
+      "application_requirements": "",
+      "project_type": "",
+      "financial_records": ""
+    }},
+    "match_assessment": "",
+    "application_checklist": {{
+      "business_plan_guidelines": "",
+      "pitch_deck_advice": "",
+      "financial_docs_list": "",
+      "legal_docs_list": ""
+    }}
+  }}
+]
+
+Only include up to the *top 5 most relevant and high‑quality* opportunities.
+
+If you draw information from government sources, local city websites, official program pages, news articles, or credible databases, always include the **URL** to the original source.
+
+Do **not** make up links — only include real links that can be verified.
+
+Only include results that are currently open, with deadlines in the next 12 months.

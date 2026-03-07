@@ -1,17 +1,17 @@
-from fastapi import FastAPI
+from fastapi import APIRouter
 from pydantic import BaseModel
 from openai import OpenAI
-from grant.info_collection import StartUpInfo
+from models.startup_profile import StartUpInfo
 import json
 
 client = OpenAI(api_key="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")
-app = FastAPI()
+router = APIRouter(prefix="/funding", tags=["funding"])
 
 
 
-@app.post("/roadmap")
+@router.post("/")
 def find_funding(data: StartUpInfo):
-    with open("prompt.txt", "r") as file:
+    with open("compass-project/backend/data/prompt.txt", "r") as file:
         prompt_template = file.read()
         
     prompt = prompt_template.format(

@@ -1,16 +1,15 @@
+from fastapi import FastAPI
 from pydantic import BaseModel
-from typing import List, Optional
 
-
-class StartupProfile(BaseModel):
-    startup_name: Optional[str] = None
+class StartUpInfo(BaseModel):
+    location: str
+    industry: str
     stage: str
-    sectors: List[str]
-    country: str
-    province: Optional[str] = None
-    city: Optional[str] = None
-    funding_needs: List[str]
-    founder_tags: List[str] = []
-    business_model: Optional[str] = None
-    team_size: Optional[int] = None
-    summary: str
+    team_size: int
+    funding_need: float
+    business_model: str
+    target_market: str
+
+class PromptRequest(BaseModel):
+    prompt: str
+    
