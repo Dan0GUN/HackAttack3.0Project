@@ -39,11 +39,7 @@ function App() {
         {/* Questionnaire (protected) */}
         <Route
           path="/Questionnaire"
-          element={
-            <ProtectedRoute>
-              <Questionnaire />
-            </ProtectedRoute>
-          }
+          element={<Questionnaire />}
         />
 
       </Routes>
