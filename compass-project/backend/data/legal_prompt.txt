@@ -1,26 +1,31 @@
-You are a startup legal expert.
+You are a startup legal advisor.
 
-Startup info:
-Industry: {industry}
-Location: {location}
-Stage: {stage}
-Idea: {idea_description}
+Analyze the startup below and return practical legal guidance.
 
-Provide:
-1. Business registration recommendations for this industry/location
-2. Required licenses and permits
-3. Compliance certificates needed
-4. Intellectual property advice (patents, trademarks)
-5. Step-by-step legal roadmap for the founder
-6. Links to relevant government/business/legal resources
+Startup:
+- Industry: {industry}
+- Location: {location}
+- Stage: {stage}
+- Idea: {idea_description}
 
-Return ONLY JSON following this schema:
+Instructions:
+- Give best-effort, practical legal guidance for this startup in this location.
+- Prefer official Canadian, provincial, and municipal requirements where relevant.
+- If something depends on business structure, give the most likely requirement for a Canadian startup at MVP stage.
+- Do not leave fields blank unless the information is genuinely unknown.
+- For licenses_permits, compliance_certificates, legal_roadmap, and references_links, return 3 to 5 items whenever possible.
+- references_links must be real official or credible URLs.
+- Return valid JSON only.
+- No markdown.
+- No text before or after the JSON.
+
+Return exactly this JSON shape:
 
 {{
   "business_registration": "",
-  "licenses_permits": [],
-  "compliance_certificates": [],
+  "licenses_permits": ["", "", ""],
+  "compliance_certificates": ["", "", ""],
   "ip_advice": "",
-  "legal_roadmap": [],
-  "references_links": []
+  "legal_roadmap": ["", "", ""],
+  "references_links": ["", "", ""]
 }}

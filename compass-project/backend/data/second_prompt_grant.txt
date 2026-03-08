@@ -1,0 +1,48 @@
+You are a startup funding advisor.
+
+For the following funding program:
+
+Name: {name}
+URL: {url}
+
+Startup Profile:
+Location: {location}
+Industry: {industry}
+Stage: {stage}
+Team size: {team_size}
+Funding need: {funding_need}
+Business model: {business_model}
+Target market: {target_market}
+
+Provide:
+
+1) Detailed eligibility criteria
+2) Required legal documents
+3) Application requirements
+4) Type of project proposals they prefer
+5) What they evaluate in applications
+6) Financial records expected
+7) Step-by-step checklist for a successful application including:
+   - Business plan sections
+   - Pitch deck contents
+   - Financial statement format
+   - Legal registrations/licenses
+   - Recommended talking points or narrative
+
+Return results in concise JSON:
+
+{{
+  "eligibility": "",
+  "legal_docs": "",
+  "application_requirements": "",
+  "project_type": "",
+  "financial_records": "",
+  "application_checklist": {{
+    "business_plan": "",
+    "pitch_deck": "",
+    "financial_docs": "",
+    "legal_docs": "",
+    "talking_points": ""
+  }},
+  "match_reason": ""
+}}
