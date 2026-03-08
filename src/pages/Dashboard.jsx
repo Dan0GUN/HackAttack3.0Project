@@ -14,7 +14,7 @@ import {
 function Dashboard() {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { answers, recommendedGrants } = useQuestionnaire();
+  const { answers, recommendedGrants, setAnswers, setRecommendedGrants } = useQuestionnaire();
 
   const [showTour, setShowTour] = useState(false);
   const [tourStep, setTourStep] = useState(0);
@@ -29,6 +29,14 @@ function Dashboard() {
   const handleLogout = async () => {
     await signOut(auth);
     navigate("/");
+  };
+
+  const handleResetQuestionnaire = () => {
+    localStorage.removeItem("questionnaireAnswers");
+    localStorage.removeItem("recommendedGrants");
+    setAnswers({});
+    setRecommendedGrants([]);
+    navigate("/questionnaire");
   };
 
   const firstName =
@@ -193,14 +201,25 @@ function Dashboard() {
 
         {diagnosticCompleted ? (
           <div className="bg-white rounded-xl border border-slate-200 p-8">
-            <h2 className="text-2xl mb-2">Your AI-Powered Funding Matches</h2>
+            <div className="flex justify-between items-start mb-6 gap-4">
+              <div>
+                <h2 className="text-2xl mb-2">Your AI-Powered Funding Matches</h2>
 
-            {answers?.industry && answers?.stage && answers?.location && (
-              <p className="text-sm text-slate-500 mb-6">
-                Based on your {answers.stage.toLowerCase()}{" "}
-                {answers.industry.toLowerCase()} startup in {answers.location}.
-              </p>
-            )}
+                {answers?.industry && answers?.stage && answers?.location && (
+                  <p className="text-sm text-slate-500">
+                    Based on your {answers.stage.toLowerCase()}{" "}
+                    {answers.industry.toLowerCase()} startup in {answers.location}.
+                  </p>
+                )}
+              </div>
+
+              <button
+                onClick={handleResetQuestionnaire}
+                className="px-4 py-2 text-sm border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors"
+              >
+                Retake
+              </button>
+            </div>
 
             <div className="space-y-4">
               {recommendedGrants.map((grant, index) => (
@@ -220,6 +239,17 @@ function Dashboard() {
                     <p className="text-sm text-slate-600 mt-1">
                       {grant.reason || "No explanation provided."}
                     </p>
+
+                    {grant.url && (
+                      <a
+                        href={grant.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm text-blue-600 hover:underline mt-2 inline-block"
+                      >
+                        View program →
+                      </a>
+                    )}
                   </div>
                 </div>
               ))}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, ArrowLeft, Check } from "lucide-react";
 import { findFunding } from "../../api/api";
@@ -11,6 +11,13 @@ function Questionnaire() {
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    const savedAnswers = localStorage.getItem("questionnaireAnswers");
+    if (savedAnswers) {
+      navigate("/dashboard");
+    }
+  }, [navigate]);
 
   const questions = [
     {
@@ -115,14 +122,21 @@ function Questionnaire() {
     setIsSubmitting(true);
 
     try {
-      setContextAnswers(answers);
+      console.log("Submitting answers:", answers);
 
       const result = await findFunding(answers);
 
-      // Backend returns { matches: [...], recommended_funding_plan: [...] }
-      setRecommendedGrants(result.matches || []);
+      console.log("Full backend response:", result);
+      console.log("Matches from backend:", result.matches);
 
-      console.log("Backend response:", result);
+      setContextAnswers(answers);
+      setRecommendedGrants(Array.isArray(result.matches) ? result.matches : []);
+
+      localStorage.setItem("questionnaireAnswers", JSON.stringify(answers));
+      localStorage.setItem(
+        "recommendedGrants",
+        JSON.stringify(Array.isArray(result.matches) ? result.matches : [])
+      );
 
       navigate("/dashboard");
     } catch (err) {
