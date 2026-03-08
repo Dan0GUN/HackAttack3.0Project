@@ -152,14 +152,14 @@ function AnswerEngine() {
         <div className="border border-slate-200 rounded-xl p-6 mb-8">
           <div className="flex items-center gap-4 mb-5">
             <div className="flex-1 relative">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
 
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search for grants, compliance guides, or resources..."
-                className="w-full pl-12 pr-4 py-3 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                className="w-full pl-12 pr-4 py-3 border border-slate-200 rounded-lg bg-white text-black placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-black"
               />
             </div>
 
@@ -176,8 +176,8 @@ function AnswerEngine() {
               onClick={() => setSelectedCategory("grants")}
               className={`px-4 py-2 rounded-lg transition-colors text-sm ${
                 selectedCategory === "grants"
-                  ? "bg-black text-white"
-                  : "bg-slate-50 hover:bg-slate-100"
+                  ? "bg-black text-white [&_*]:text-white"
+                  : "bg-slate-50 text-black hover:bg-slate-100"
               }`}
             >
               <div className="flex items-center gap-2">
@@ -190,8 +190,8 @@ function AnswerEngine() {
               onClick={() => setSelectedCategory("compliance")}
               className={`px-4 py-2 rounded-lg transition-colors text-sm ${
                 selectedCategory === "compliance"
-                  ? "bg-black text-white"
-                  : "bg-slate-50 hover:bg-slate-100"
+                  ? "bg-black text-white [&_*]:text-white"
+                  : "bg-slate-50 text-black hover:bg-slate-100"
               }`}
             >
               <div className="flex items-center gap-2">
@@ -204,8 +204,8 @@ function AnswerEngine() {
               onClick={() => setSelectedCategory("office")}
               className={`px-4 py-2 rounded-lg transition-colors text-sm ${
                 selectedCategory === "office"
-                  ? "bg-black text-white"
-                  : "bg-slate-50 hover:bg-slate-100"
+                  ? "bg-black text-white [&_*]:text-white"
+                  : "bg-slate-50 text-black hover:bg-slate-100"
               }`}
             >
               <div className="flex items-center gap-2">
@@ -255,8 +255,7 @@ function AnswerEngine() {
                 <div>
                   <h4 className="mb-1">AI-Powered Grant Matching</h4>
                   <p className="text-sm text-slate-600">
-                    Based on your diagnostic profile, we've identified{" "}
-                    {knowledgeBase.grants.length} relevant funding opportunities
+                    Based on your diagnostic profile, we've identified {knowledgeBase.grants.length} relevant funding opportunities
                   </p>
                 </div>
               </div>
@@ -346,7 +345,7 @@ function AnswerEngine() {
                 <label className="block text-sm mb-2">What's your context?</label>
                 <textarea
                   placeholder="e.g., We're a healthcare startup in the MVP stage..."
-                  className="w-full p-3 border border-slate-200 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-black"
+                  className="w-full p-3 border border-slate-200 rounded-lg bg-white text-black resize-none placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-black"
                   rows={2}
                 />
               </div>
@@ -357,7 +356,7 @@ function AnswerEngine() {
                 </label>
                 <textarea
                   placeholder="e.g., We need HIPAA compliance but aren't sure where to start..."
-                  className="w-full p-3 border border-slate-200 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-black"
+                  className="w-full p-3 border border-slate-200 rounded-lg bg-white text-black resize-none placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-black"
                   rows={3}
                 />
               </div>
@@ -366,7 +365,7 @@ function AnswerEngine() {
                 <label className="block text-sm mb-2">What outcome do you need?</label>
                 <textarea
                   placeholder="e.g., A roadmap to achieve HIPAA compliance in 90 days..."
-                  className="w-full p-3 border border-slate-200 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-black"
+                  className="w-full p-3 border border-slate-200 rounded-lg bg-white text-black resize-none placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-black"
                   rows={2}
                 />
               </div>

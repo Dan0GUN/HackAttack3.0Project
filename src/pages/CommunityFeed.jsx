@@ -106,7 +106,7 @@ function CommunityFeed() {
             className={`px-5 py-2 rounded-lg transition-colors text-sm ${
               activeTab === "feed"
                 ? "bg-black text-white"
-                : "hover:bg-slate-50"
+                : "bg-white text-black hover:bg-slate-50"
             }`}
           >
             Feed
@@ -117,7 +117,7 @@ function CommunityFeed() {
             className={`px-5 py-2 rounded-lg transition-colors text-sm ${
               activeTab === "recruit"
                 ? "bg-black text-white"
-                : "hover:bg-slate-50"
+                : "bg-white text-black hover:bg-slate-50"
             }`}
           >
             Talent Hub
@@ -132,7 +132,7 @@ function CommunityFeed() {
                   value={newPost}
                   onChange={(e) => setNewPost(e.target.value)}
                   placeholder="Share an update, ask a question, or recruit talent..."
-                  className="w-full p-4 border-0 bg-transparent resize-none focus:outline-none placeholder:text-slate-400"
+                  className="w-full p-4 border-0 bg-transparent text-black resize-none placeholder:text-slate-400 focus:outline-none"
                   rows={4}
                 />
 
@@ -196,12 +196,12 @@ function CommunityFeed() {
                   <input
                     type="text"
                     placeholder="Position title"
-                    className="w-full p-3 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                    className="w-full p-3 border border-slate-200 rounded-lg bg-white text-black placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-black"
                   />
 
                   <textarea
                     placeholder="Job description..."
-                    className="w-full p-3 border border-slate-200 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-black"
+                    className="w-full p-3 border border-slate-200 rounded-lg bg-white text-black resize-none placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-black"
                     rows={3}
                   />
 
@@ -209,13 +209,13 @@ function CommunityFeed() {
                     <input
                       type="text"
                       placeholder="Location"
-                      className="p-3 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                      className="p-3 border border-slate-200 rounded-lg bg-white text-black placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-black"
                     />
 
                     <input
                       type="text"
                       placeholder="Equity range"
-                      className="p-3 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                      className="p-3 border border-slate-200 rounded-lg bg-white text-black placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-black"
                     />
                   </div>
 
