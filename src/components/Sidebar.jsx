@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 function Sidebar() {
   return (
-    <div className="w-64 bg-gray-900 text-white h-screen p-6">
+    <div className="w-64 bg-white text-black h-screen p-6">
 
       <h1 className="text-2xl font-bold mb-10">
         Starter

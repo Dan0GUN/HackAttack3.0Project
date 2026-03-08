@@ -3,6 +3,7 @@ from models.startup_profile import StartupProfile
 from models.grant_input import GrantPasteInput
 from services.grant_parser import parse_grant_text
 from services.grant_search_service import search_for_matching_grants
+from services.generate_grant import router
 import json
 import os
 
@@ -16,6 +17,9 @@ app = FastAPI(
 @app.get("/")
 def root():
     return {"message": "Compass Grant Finder API is running"}
+
+#this include the generating_grant router
+@app.include_router(router)
 
 
 @app.post("/parse-grant")
