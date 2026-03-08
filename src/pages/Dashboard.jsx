@@ -28,6 +28,7 @@ function Dashboard() {
   const diagnosticCompleted = recommendedGrants.length > 0;
 
   const handleLogout = async () => {
+    // Don't clear questionnaire status - user should skip it on next login
     await signOut(auth);
     navigate("/");
   };

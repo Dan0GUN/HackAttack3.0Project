@@ -1,12 +1,15 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, ArrowLeft, Check } from "lucide-react";
-import { findFunding } from "../../api/api";
+import { findFunding, saveQuestionnaireAnswers } from "../../api/api";
 import { useQuestionnaire } from "../../context/QuestionnaireContext";
+import { useAuth } from "../../context/AuthContext";
 
 function Questionnaire() {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const { setAnswers: setContextAnswers, setRecommendedGrants } = useQuestionnaire();
+  const { markQuestionnaireCompleted } = useAuth();
 
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState({});
@@ -124,7 +127,26 @@ function Questionnaire() {
     try {
       console.log("Submitting answers:", answers);
 
-      const result = await findFunding(answers);
+      try {
+        // Save answers to backend if user is authenticated
+        if (user && user.uid) {
+          await saveQuestionnaireAnswers(user.uid, answers);
+          console.log("Answers saved to backend");
+        }
+
+        // Fetch recommended grants from backend
+        const grants = await findFunding(answers);
+        setRecommendedGrants(grants.recommendations || []);
+        console.log("Recommended grants:", grants);
+
+        // Mark questionnaire as completed
+        markQuestionnaireCompleted();
+
+      } catch (err) {
+        console.error("Backend error:", err);
+        // Mark as completed anyway to allow user to continue
+        markQuestionnaireCompleted();
+      }
 
       console.log("Full backend response:", result);
       console.log("Matches from backend:", result.matches);
