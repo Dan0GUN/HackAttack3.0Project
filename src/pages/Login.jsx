@@ -40,8 +40,18 @@ function Login() {
   const loginGithub = async () => {
     try {
       const provider = new GithubAuthProvider();
-      await signInWithPopup(auth, provider);
+
+      // FORCE GitHub to ask which account to use
+      provider.setCustomParameters({
+        prompt: "select_account"
+      });
+
+      const result = await signInWithPopup(auth, provider);
+
+      console.log("Logged in GitHub user:", result.user);
+
       navigate("/Questionnaire");
+
     } catch (error) {
       console.error(error);
       alert(error.message);
