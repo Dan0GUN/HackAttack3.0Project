@@ -24,15 +24,18 @@ export async function findFunding(data) {
 }
 
 /*
-  Sends idea description to the compliance AI endpoint
+  Sends compliance request to backend.
+  Backend expects: industry, location, stage, idea_description
 */
-export async function searchCompliance(ideaDescription) {
-  const response = await fetch(`${API_URL}/legal_info`, {
+export async function searchCompliance(data) {
+  console.log("Sending compliance request:", data);
+
+  const response = await fetch(`${API_URL}/legal/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ idea_description: ideaDescription }),
+    body: JSON.stringify(data),
   });
 
   if (!response.ok) {

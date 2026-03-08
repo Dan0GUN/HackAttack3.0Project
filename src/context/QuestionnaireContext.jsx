@@ -13,6 +13,15 @@ export function QuestionnaireProvider({ children }) {
     return savedGrants ? JSON.parse(savedGrants) : [];
   });
 
+  const [ideaDescription, setIdeaDescription] = useState(() => {
+    return localStorage.getItem("ideaDescription") || "";
+  });
+
+  const [complianceResults, setComplianceResults] = useState(() => {
+    const savedCompliance = localStorage.getItem("complianceResults");
+    return savedCompliance ? JSON.parse(savedCompliance) : null;
+  });
+
   return (
     <QuestionnaireContext.Provider
       value={{
@@ -20,6 +29,10 @@ export function QuestionnaireProvider({ children }) {
         setAnswers,
         recommendedGrants,
         setRecommendedGrants,
+        ideaDescription,
+        setIdeaDescription,
+        complianceResults,
+        setComplianceResults,
       }}
     >
       {children}
