@@ -19,7 +19,7 @@ function Login() {
   const loginEmail = async () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      navigate("/dashboard");
+      navigate("/Questionnaire");
     } catch (error) {
       console.error(error);
       alert(error.message);
@@ -30,7 +30,7 @@ function Login() {
     try {
       const provider = new GoogleAuthProvider();
       await signInWithPopup(auth, provider);
-      navigate("/dashboard");
+      navigate("/Questionnaire");
     } catch (error) {
       console.error(error);
       alert(error.message);
@@ -41,7 +41,7 @@ function Login() {
     try {
       const provider = new GithubAuthProvider();
       await signInWithPopup(auth, provider);
-      navigate("/dashboard");
+      navigate("/Questionnaire");
     } catch (error) {
       console.error(error);
       alert(error.message);
