@@ -10,73 +10,73 @@ function Questionnaire() {
 
   const questions = [
     {
-      id: "stage",
-      question: "What stage is your startup currently in?",
-      options: [
-        "Idea Stage - Still validating the concept",
-        "Pre-MVP - Building the first version",
-        "MVP Complete - Testing with users",
-        "Early Revenue - Generating initial sales",
-        "Scaling - Ready to grow rapidly",
-      ],
+      id: "location",
+      question: "Where is your startup currently based?",
+      options: ["Canada", "United States", "Europe", "Other"],
     },
     {
-      id: "sector",
-      question: "Which sector does your startup operate in?",
+      id: "industry",
+      question: "What industry best describes your startup?",
       options: [
-        "Technology & Software",
-        "Healthcare & Biotech",
-        "Finance & Fintech",
-        "Education & Edtech",
-        "E-commerce & Retail",
-        "Clean Energy & Sustainability",
+        "Artificial Intelligence",
+        "FinTech",
+        "HealthTech",
+        "Climate / CleanTech",
+        "SaaS / Software",
+        "E-commerce",
+        "Biotechnology",
         "Other",
       ],
     },
     {
-      id: "team",
-      question: "What is your current team size?",
+      id: "stage",
+      question: "What stage is your startup currently in?",
       options: [
-        "Solo founder",
-        "2-3 co-founders",
-        "4-10 team members",
-        "11-25 team members",
-        "25+ team members",
+        "Idea stage",
+        "Prototype / MVP",
+        "Early traction",
+        "Growth stage",
+        "Scaling",
       ],
     },
     {
-      id: "funding",
-      question: "What is your current funding status?",
+      id: "team_size",
+      question: "How many people are currently on your team?",
+      options: ["Solo founder", "2–5 people", "6–10 people", "10+"],
+    },
+    {
+      id: "funding_need",
+      question: "How much funding are you looking to raise?",
       options: [
-        "Self-funded/Bootstrapped",
-        "Friends & Family round",
-        "Angel investment received",
-        "Seed funding received",
-        "Series A or beyond",
-        "Actively fundraising",
+        "Under $10K",
+        "$10K – $50K",
+        "$50K – $250K",
+        "$250K – $1M",
+        "$1M+",
       ],
     },
     {
-      id: "barrier",
-      question: "What is your biggest growth barrier right now?",
+      id: "business_model",
+      question: "What is your startup’s primary business model?",
       options: [
-        "Market validation - Understanding customer needs",
-        "Product development - Building the right features",
-        "Regulatory compliance - Licenses and certifications",
-        "Funding - Accessing capital",
-        "Team building - Recruiting talent",
-        "Customer acquisition - Marketing and sales",
+        "SaaS subscription",
+        "Marketplace",
+        "B2B services",
+        "E-commerce",
+        "Advertising",
+        "Licensing / IP",
+        "Other",
       ],
     },
     {
-      id: "licenses",
-      question:
-        "Do you have the necessary licenses and certifications for your industry?",
+      id: "target_market",
+      question: "Who is your primary target market?",
       options: [
-        "Yes, all requirements met",
-        "Partially - working on it",
-        "No - not sure what I need",
-        "Not applicable to my industry",
+        "Consumers (B2C)",
+        "Small businesses",
+        "Enterprises",
+        "Government",
+        "Nonprofits",
       ],
     },
   ];
@@ -92,6 +92,7 @@ function Questionnaire() {
     if (currentStep < questions.length - 1) {
       setCurrentStep(currentStep + 1);
     } else {
+      console.log("Questionnaire answers:", answers);
       navigate("/dashboard");
     }
   };
