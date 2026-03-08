@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useQuestionnaire } from "../context/QuestionnaireContext";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
 import {
@@ -8,12 +9,13 @@ import {
   Users,
   Search,
   X,
-  ArrowRight,
 } from "lucide-react";
 
 function Dashboard() {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { answers, recommendedGrants, setAnswers, setRecommendedGrants } =
+    useQuestionnaire();
 
   const [showTour, setShowTour] = useState(false);
   const [tourStep, setTourStep] = useState(0);
@@ -23,12 +25,20 @@ function Dashboard() {
   const resourcesRef = useRef(null);
 
   const userType = "startup";
-  const diagnosticCompleted = true;
+  const diagnosticCompleted = recommendedGrants.length > 0;
 
   const handleLogout = async () => {
     // Don't clear questionnaire status - user should skip it on next login
     await signOut(auth);
     navigate("/");
+  };
+
+  const handleResetQuestionnaire = () => {
+    localStorage.removeItem("questionnaireAnswers");
+    localStorage.removeItem("recommendedGrants");
+    setAnswers({});
+    setRecommendedGrants([]);
+    navigate("/questionnaire");
   };
 
   const firstName =
@@ -76,7 +86,6 @@ function Dashboard() {
     }
   }, [showTour, tourStep]);
 
-  // FIXED POSITION
   const getTooltipPosition = (ref) => {
     if (!ref?.current) return { top: "50%", left: "50%" };
 
@@ -90,14 +99,11 @@ function Dashboard() {
 
   return (
     <div className="min-h-screen bg-white">
-
-      {/* NAVBAR */}
       <nav className="border-b border-slate-100 px-8 py-5">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
-
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 bg-black rounded-lg"></div>
-            <span className="text-lg">Ecosystem</span>
+            <span className="text-lg">Starter</span>
           </div>
 
           <div className="flex items-center gap-3">
@@ -115,13 +121,10 @@ function Dashboard() {
               Logout
             </button>
           </div>
-
         </div>
       </nav>
 
-      {/* MAIN */}
       <main className="max-w-7xl mx-auto px-8 py-12">
-
         <div className="mb-12">
           <h1 className="text-4xl mb-3">
             Welcome, {userType === "startup" ? firstName : "Investor"}
@@ -132,10 +135,7 @@ function Dashboard() {
           </p>
         </div>
 
-        {/* CARDS */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 mb-12">
-
-          {/* Diagnostic */}
           <div
             ref={diagnosticRef}
             className={`relative ${
@@ -156,7 +156,6 @@ function Dashboard() {
             </button>
           </div>
 
-          {/* Feed */}
           <div
             ref={feedRef}
             className={`relative ${
@@ -179,7 +178,6 @@ function Dashboard() {
             </button>
           </div>
 
-          {/* Answer Engine */}
           <div
             ref={resourcesRef}
             className={`relative ${
@@ -201,45 +199,61 @@ function Dashboard() {
               </p>
             </button>
           </div>
-
         </div>
 
-        {/* ROADMAP */}
         {diagnosticCompleted && (
           <div className="bg-white rounded-xl border border-slate-200 p-8">
-            <h2 className="text-2xl mb-6">Your AI-Powered Roadmap</h2>
+            <div className="flex justify-between items-start mb-6 gap-4">
+              <div>
+                <h2 className="text-2xl mb-2">Your AI-Powered Funding Matches</h2>
+                <p className="text-slate-500">
+                  Based on your questionnaire answers, here are your current results.
+                </p>
+              </div>
+
+              <button
+                onClick={handleResetQuestionnaire}
+                className="px-4 py-2 text-sm border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors"
+              >
+                Retake Questionnaire
+              </button>
+            </div>
 
             <div className="space-y-3">
-
               <div className="flex items-start gap-4 p-5 bg-slate-50 rounded-lg">
                 <div className="w-7 h-7 bg-black rounded-full flex items-center justify-center"></div>
                 <div>
-                  <h4>Market Validation</h4>
+                  <h4>Startup Profile</h4>
                   <p className="text-sm text-slate-500">
-                    Completed: Customer interviews and market research
+                    Based on your {answers?.stage?.toLowerCase() || "current"}{" "}
+                    {answers?.industry?.toLowerCase() || "startup"} startup in{" "}
+                    {answers?.location || "your location"}.
                   </p>
                 </div>
               </div>
 
-              <div className="flex items-start gap-4 p-5 border border-slate-200 rounded-lg">
-                <div className="w-7 h-7 bg-black text-white rounded-full flex items-center justify-center text-sm">
-                  2
+              {recommendedGrants.slice(0, 3).map((grant, index) => (
+                <div
+                  key={grant.id || index}
+                  className="flex items-start gap-4 p-5 border border-slate-200 rounded-lg"
+                >
+                  <div className="w-7 h-7 bg-black text-white rounded-full flex items-center justify-center text-sm">
+                    {index + 1}
+                  </div>
+                  <div>
+                    <h4>{grant.name}</h4>
+                    <p className="text-sm text-slate-500">
+                      {grant.organization}
+                      {grant.amount ? ` • ${grant.amount}` : ""}
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h4>Build MVP</h4>
-                  <p className="text-sm text-slate-500">
-                    In Progress: Develop minimum viable product
-                  </p>
-                </div>
-              </div>
-
+              ))}
             </div>
           </div>
         )}
-
       </main>
 
-      {/* TOUR MODAL */}
       {showTour && (
         <>
           <div

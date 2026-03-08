@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { Mail, Github } from "lucide-react";
 
 import { auth } from "../firebase";
 import {
@@ -19,51 +19,16 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // Helper function to redirect after successful auth
-  const redirectAfterAuth = (userId, userAccountType, isNewUser = false) => {
-    // Store account type in localStorage
-    localStorage.setItem(`account_type_${userId}`, userAccountType);
-
-    // For new signup
-    if (isNewUser) {
-      // Only startups need questionnaire
-      if (userAccountType === "startup") {
-        navigate("/questionnaire");
-      } else {
-        // Mentors go straight to dashboard
-        navigate("/dashboard");
-      }
-    } else {
-      // For existing user login
-      // Mentors always go to dashboard
-      if (userAccountType === "mentor") {
-        navigate("/dashboard");
-      } else {
-        // Startups check questionnaire status
-        const completed = localStorage.getItem(`questionnaire_${userId}`);
-        if (completed) {
-          navigate("/dashboard");
-        } else {
-          navigate("/questionnaire");
-        }
-      }
-    }
-  };
-
-  // EMAIL LOGIN
   const loginEmail = async () => {
     try {
-      // Try to login first to see if account exists
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      const storedAccountType = localStorage.getItem(`account_type_${userCredential.user.uid}`) || "startup";
-      redirectAfterAuth(userCredential.user.uid, storedAccountType, false);
+      await signInWithEmailAndPassword(auth, email, password);
+      navigate("/questionnaire");
     } catch (error) {
       console.error(error);
       alert(error.message);
     }
   };
-  
-  // EMAIL SIGNUP
+
   const signupEmail = async () => {
     try {
       const userCredential = await createUserWithEmailAndPassword(
@@ -73,7 +38,7 @@ function Login() {
       );
 
       console.log("User created:", userCredential.user);
-      redirectAfterAuth(userCredential.user.uid, accountType, true);
+      navigate("/questionnaire");
     } catch (error) {
       if (error.code === "auth/email-already-in-use") {
         alert("Account already exists. Please sign in instead.");
@@ -84,41 +49,26 @@ function Login() {
     }
   };
 
-  // GOOGLE LOGIN
   const loginGoogle = async () => {
     try {
       const provider = new GoogleAuthProvider();
-      const userCredential = await signInWithPopup(auth, provider);
-      
-      // Check if this is a new user - safer check for metadata
-      const metadata = userCredential.metadata;
-      const isNewUser = metadata && metadata.creationTime === metadata.lastSignInTime;
-      const storedAccountType = localStorage.getItem(`account_type_${userCredential.user.uid}`) || accountType;
-      
-      redirectAfterAuth(userCredential.user.uid, storedAccountType, isNewUser);
+      await signInWithPopup(auth, provider);
+      navigate("/questionnaire");
     } catch (error) {
       console.error(error);
       alert(error.message);
     }
   };
 
-  // GITHUB LOGIN
   const loginGithub = async () => {
     try {
       const provider = new GithubAuthProvider();
-
       provider.setCustomParameters({
         prompt: "select_account",
       });
 
-      const userCredential = await signInWithPopup(auth, provider);
-      
-      // Check if this is a new user - safer check for metadata
-      const metadata = userCredential.metadata;
-      const isNewUser = metadata && metadata.creationTime === metadata.lastSignInTime;
-      const storedAccountType = localStorage.getItem(`account_type_${userCredential.user.uid}`) || accountType;
-      
-      redirectAfterAuth(userCredential.user.uid, storedAccountType, isNewUser);
+      await signInWithPopup(auth, provider);
+      navigate("/questionnaire");
     } catch (error) {
       console.error(error);
       alert(error.message);
@@ -144,9 +94,8 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-white flex items-start justify-center px-6 pt-10">
+    <div className="min-h-screen w-full bg-white flex items-start justify-center px-6 pt-10">
       <div className="w-full max-w-[560px] bg-white">
-
         <h1 className="text-[42px] font-bold text-center text-black mb-2">
           {isSignup ? "Create Account" : "Login"}
         </h1>
@@ -155,13 +104,13 @@ function Login() {
           Select your account type to {isSignup ? "create an account" : "sign in"}
         </p>
 
-        <div className="flex bg-[#eef1f5] rounded-2xl p-1 mb-10">
+        <div className="flex bg-white rounded-2xl p-1 mb-10 border border-gray-200">
           <button
             onClick={() => setAccountType("startup")}
-            className={`w-1/2 py-4 rounded-2xl text-[18px] font-medium ${
+            className={`w-1/2 py-4 rounded-2xl text-[18px] font-medium transition ${
               accountType === "startup"
                 ? "bg-white text-black shadow-sm"
-                : "text-[#60708A]"
+                : "bg-transparent text-gray-500"
             }`}
           >
             Startup
@@ -169,10 +118,10 @@ function Login() {
 
           <button
             onClick={() => setAccountType("mentor")}
-            className={`w-1/2 py-4 rounded-2xl text-[18px] font-medium ${
+            className={`w-1/2 py-4 rounded-2xl text-[18px] font-medium transition ${
               accountType === "mentor"
-                ? "bg-white shadow text-black"
-                : "text-gray-700"
+                ? "bg-white text-black shadow-sm"
+                : "bg-transparent text-gray-500"
             }`}
           >
             Mentor / Investor
@@ -183,37 +132,46 @@ function Login() {
           Email
         </label>
 
-        <input
-          type="email"
-          placeholder="name@example.com"
-          className="w-full h-[56px] rounded-2xl border border-[#d8dee8] px-5 mb-6"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+        <div className="relative mb-6">
+          <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+          <input
+            type="email"
+            placeholder="name@example.com"
+            className="w-full h-[56px] rounded-2xl border border-gray-300 pl-12 pr-5 bg-white text-black placeholder:text-gray-400"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
 
-        <label className="block text-black font-semibold mb-2">
-          Password
-        </label>
+        <div className="flex items-center justify-between mb-2">
+          <label className="block text-black font-semibold">
+            Password
+          </label>
+
+          {!isSignup && (
+            <button
+              type="button"
+              className="text-[#2f6bff] text-sm font-medium"
+            >
+              Forgot?
+            </button>
+          )}
+        </div>
 
         <input
           type="password"
-          className="w-full h-[56px] rounded-2xl border border-[#d8dee8] px-5 mb-6"
+          className="w-full h-[56px] rounded-2xl border border-gray-300 px-5 mb-6 bg-white text-black"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
 
         <button
-          onClick={loginEmail}
-          className="w-full h-[60px] bg-black text-white rounded-2xl mb-4"
+          onClick={handleSubmit}
+          className="w-full h-[60px] bg-black text-white rounded-2xl mb-4 hover:opacity-95 transition"
         >
-          Sign In
-        </button>
-
-        <button
-          onClick={signupEmail}
-          className="w-full h-[60px] border border-black rounded-2xl mb-8"
-        >
-          Create Account
+          {isSignup
+            ? `Create ${accountType === "startup" ? "Startup" : "Mentor"} Account`
+            : `Sign In as ${accountType === "startup" ? "Startup" : "Mentor"}`}
         </button>
 
         <div className="flex items-center gap-4 mb-8">
@@ -222,22 +180,33 @@ function Login() {
           <div className="flex-1 h-px bg-gray-300" />
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-4 mb-8">
           <button
             onClick={loginGithub}
-            className="h-[56px] border rounded-2xl"
+            className="h-[56px] border border-gray-300 rounded-2xl bg-white text-black flex items-center justify-center gap-2"
           >
+            <Github className="w-5 h-5" />
             Github
           </button>
 
           <button
             onClick={loginGoogle}
-            className="h-[56px] border rounded-2xl"
+            className="h-[56px] border border-gray-300 rounded-2xl bg-white text-black flex items-center justify-center gap-2"
           >
+            <Mail className="w-5 h-5" />
             Google
           </button>
         </div>
 
+        <p className="text-center text-[16px] text-[#60708A]">
+          {isSignup ? "Already have an account? " : "New here? "}
+          <span
+            className="text-black font-semibold cursor-pointer"
+            onClick={() => setIsSignup(!isSignup)}
+          >
+            {isSignup ? "Sign in" : "Create an account"}
+          </span>
+        </p>
       </div>
     </div>
   );
