@@ -7,9 +7,8 @@ import { useAuth } from "../../context/AuthContext";
 
 function Questionnaire() {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, markQuestionnaireCompleted } = useAuth();
   const { setAnswers: setContextAnswers, setRecommendedGrants } = useQuestionnaire();
-  const { markQuestionnaireCompleted } = useAuth();
 
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState({});
@@ -127,38 +126,34 @@ function Questionnaire() {
     try {
       console.log("Submitting answers:", answers);
 
-      try {
-        // Save answers to backend if user is authenticated
-        if (user && user.uid) {
+      // save questionnaire answers to backend if authenticated
+      if (user?.uid) {
+        try {
           await saveQuestionnaireAnswers(user.uid, answers);
           console.log("Answers saved to backend");
+        } catch (saveError) {
+          console.error("Failed to save answers to backend:", saveError);
         }
-
-        // Fetch recommended grants from backend
-        const grants = await findFunding(answers);
-        setRecommendedGrants(grants.recommendations || []);
-        console.log("Recommended grants:", grants);
-
-        // Mark questionnaire as completed
-        markQuestionnaireCompleted();
-
-      } catch (err) {
-        console.error("Backend error:", err);
-        // Mark as completed anyway to allow user to continue
-        markQuestionnaireCompleted();
       }
+
+      // get funding recommendations
+      const result = await findFunding(answers);
 
       console.log("Full backend response:", result);
       console.log("Matches from backend:", result.matches);
 
-      setContextAnswers(answers);
-      setRecommendedGrants(Array.isArray(result.matches) ? result.matches : []);
+      const matches = Array.isArray(result.matches) ? result.matches : [];
 
+      // save to context
+      setContextAnswers(answers);
+      setRecommendedGrants(matches);
+
+      // save to localStorage
       localStorage.setItem("questionnaireAnswers", JSON.stringify(answers));
-      localStorage.setItem(
-        "recommendedGrants",
-        JSON.stringify(Array.isArray(result.matches) ? result.matches : [])
-      );
+      localStorage.setItem("recommendedGrants", JSON.stringify(matches));
+
+      // mark complete
+      markQuestionnaireCompleted();
 
       navigate("/dashboard");
     } catch (err) {
