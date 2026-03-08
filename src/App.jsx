@@ -4,7 +4,6 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
 import Questionnaire from "./pages/Questionnaire/Questionnaire";
-
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
@@ -37,6 +36,12 @@ function App() {
         />
 
         {/* Questionnaire (protected) */}
+        <Route
+          path="/Questionnaire"
+          element={<Questionnaire />}
+        />
+
+      {/* Questionnaire (protected) */}
         <Route
           path="/Questionnaire"
           element={<Questionnaire />}
