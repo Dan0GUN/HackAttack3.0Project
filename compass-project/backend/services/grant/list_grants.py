@@ -3,6 +3,8 @@ from models.schema import StartupProfile
 from core.openai_client import client
 import json
 from pathlib import Path
+from fastapi import Depends
+from core.firebase_auth import verify_token
 
 router1 = APIRouter(prefix="/funding", tags=["funding"])
 
@@ -10,7 +12,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 PROMPT_PATH = BASE_DIR / "data" / "first_prompt_grant.txt"
 
 @router1.post("/")
-def find_funding(data: StartupProfile):
+def find_funding(data: StartupProfile, user=Depends(verify_token)):
 
     with open(PROMPT_PATH, "r") as file:
         prompt_template = file.read()
