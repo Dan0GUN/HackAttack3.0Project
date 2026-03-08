@@ -10,12 +10,27 @@ function Questionnaire() {
 
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const questions = [
     {
       id: "location",
-      question: "Where is your startup currently based?",
-      options: ["Canada", "United States", "Europe", "Other"],
+      question: "Which province or territory is your startup based in?",
+      options: [
+        "British Columbia",
+        "Alberta",
+        "Saskatchewan",
+        "Manitoba",
+        "Ontario",
+        "Quebec",
+        "New Brunswick",
+        "Nova Scotia",
+        "Prince Edward Island",
+        "Newfoundland and Labrador",
+        "Yukon",
+        "Northwest Territories",
+        "Nunavut",
+      ],
     },
     {
       id: "industry",
@@ -85,60 +100,48 @@ function Questionnaire() {
   ];
 
   const handleAnswer = (value) => {
-    setAnswers({
-      ...answers,
+    setAnswers((prev) => ({
+      ...prev,
       [questions[currentStep].id]: value,
-    });
+    }));
   };
 
   const handleNext = async () => {
     if (currentStep < questions.length - 1) {
-      setCurrentStep(currentStep + 1);
-    } else {
-      // Save answers to context
+      setCurrentStep((prev) => prev + 1);
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
       setContextAnswers(answers);
-      
-      console.log("Submitting answers:", answers);
 
-      try {
-        // Fetch recommended grants from backend
-        const grants = await findFunding(answers);
-        setRecommendedGrants(grants.recommendations || []);
-        console.log("Recommended grants:", grants);
-      } catch (err) {
-        console.error("Backend error:", err);
-      }
+      const result = await findFunding(answers);
 
-      navigate("/resources");
+      // Backend returns { matches: [...], recommended_funding_plan: [...] }
+      setRecommendedGrants(result.matches || []);
+
+      console.log("Backend response:", result);
+
+      navigate("/dashboard");
+    } catch (err) {
+      console.error("Backend error:", err);
+      alert("Failed to connect to the backend. Check that the server is running.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   const handleBack = () => {
+    if (isSubmitting) return;
+
     if (currentStep > 0) {
-      setCurrentStep(currentStep - 1);
+      setCurrentStep((prev) => prev - 1);
     } else {
       navigate("/dashboard");
     }
   };
-
-  async function handleSubmit() {
-    const data = {
-      location: "Canada",
-      industry: "AI",
-      stage: "MVP",
-      team_size: 3,
-      funding_need: 50000,
-      business_model: "SaaS",
-      target_market: "SMBs",
-    };
-
-    try {
-      const grants = await findFunding(data);
-      console.log(grants);
-    } catch (error) {
-      console.error(error);
-    }
-  }
 
   const progress = ((currentStep + 1) / questions.length) * 100;
   const currentQuestion = questions[currentStep];
@@ -175,18 +178,20 @@ function Questionnaire() {
           <h2 className="text-3xl mb-12">{currentQuestion.question}</h2>
 
           <div className="space-y-3">
-            {currentQuestion.options.map((option, index) => {
+            {currentQuestion.options.map((option) => {
               const isSelected = currentAnswer === option;
 
               return (
                 <button
-                  key={index}
+                  key={option}
+                  type="button"
                   onClick={() => handleAnswer(option)}
+                  disabled={isSubmitting}
                   className={`w-full text-left p-5 rounded-lg border transition-all ${
                     isSelected
                       ? "border-black bg-slate-50"
                       : "border-slate-200 hover:border-slate-300"
-                  }`}
+                  } ${isSubmitting ? "opacity-60 cursor-not-allowed" : ""}`}
                 >
                   <div className="flex items-center justify-between">
                     <span className={isSelected ? "text-black" : "text-slate-700"}>
@@ -207,28 +212,35 @@ function Questionnaire() {
 
         <div className="flex justify-between items-center">
           <button
+            type="button"
             onClick={handleBack}
+            disabled={isSubmitting}
             className={`px-6 py-2.5 rounded-lg flex items-center gap-2 transition-colors ${
               currentStep === 0
                 ? "text-slate-500 hover:bg-slate-50"
                 : "hover:bg-slate-50"
-            }`}
+            } ${isSubmitting ? "opacity-60 cursor-not-allowed" : ""}`}
           >
             <ArrowLeft className="w-4 h-4" />
             Back
           </button>
 
           <button
+            type="button"
             onClick={handleNext}
-            disabled={!currentAnswer}
+            disabled={!currentAnswer || isSubmitting}
             className={`px-6 py-2.5 rounded-lg flex items-center gap-2 transition-colors ${
-              currentAnswer
+              currentAnswer && !isSubmitting
                 ? "bg-black text-white hover:bg-slate-800"
                 : "bg-slate-100 text-slate-400 cursor-not-allowed"
             }`}
           >
-            {currentStep < questions.length - 1 ? "Next" : "Complete"}
-            <ArrowRight className="w-4 h-4" />
+            {isSubmitting
+              ? "Submitting..."
+              : currentStep < questions.length - 1
+              ? "Next"
+              : "Complete"}
+            {!isSubmitting && <ArrowRight className="w-4 h-4" />}
           </button>
         </div>
       </div>

@@ -3,17 +3,17 @@ from models.schema import StartupProfile
 
 def convert_questionnaire_to_startup_profile(data):
     """
-    Convert the frontend questionnaire payload into the StartupProfile
+    Convert questionnaire answers from the frontend into the StartupProfile
     format expected by the grant recommendation system.
 
-    The frontend sends user-friendly strings like:
+    The frontend sends human-readable strings such as:
     - team_size: "2–5 people"
     - funding_need: "$10K – $50K"
 
     The AI grant logic expects:
     - team_size as an int
     - funding_need as a float
-    - extra fields like country / province / idea_description
+    - required extra fields like country, province, and idea_description
     """
 
     team_size_map = {

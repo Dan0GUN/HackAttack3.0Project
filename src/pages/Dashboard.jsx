@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useQuestionnaire } from "../context/QuestionnaireContext";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
 import {
@@ -8,13 +9,12 @@ import {
   Users,
   Search,
   X,
-  ArrowRight,
 } from "lucide-react";
-import { findFunding } from "../api/backend";
 
 function Dashboard() {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { answers, recommendedGrants } = useQuestionnaire();
 
   const [showTour, setShowTour] = useState(false);
   const [tourStep, setTourStep] = useState(0);
@@ -24,7 +24,7 @@ function Dashboard() {
   const resourcesRef = useRef(null);
 
   const userType = "startup";
-  const diagnosticCompleted = true;
+  const diagnosticCompleted = recommendedGrants.length > 0;
 
   const handleLogout = async () => {
     await signOut(auth);
@@ -37,7 +37,7 @@ function Dashboard() {
     "Founder";
 
   const handleFeed = () => navigate("/feed");
-  const handleDiagnostic = () => navigate("/Questionnaire");
+  const handleDiagnostic = () => navigate("/questionnaire");
   const handleResources = () => navigate("/resources");
 
   const tourSteps = [
@@ -76,7 +76,6 @@ function Dashboard() {
     }
   }, [showTour, tourStep]);
 
-  // FIXED POSITION
   const getTooltipPosition = (ref) => {
     if (!ref?.current) return { top: "50%", left: "50%" };
 
@@ -88,27 +87,10 @@ function Dashboard() {
     };
   };
 
-  const handleGrantSearch = async () => {
-    const grants = await findFunding({
-      location: "Canada",
-      industry: "AI",
-      stage: "Seed",
-      team_size: 3,
-      funding_need: 50000,
-      business_model: "SaaS",
-      target_market: "SMBs",
-    });
-
-    console.log(grants);
-  };
-
   return (
     <div className="min-h-screen bg-white">
-
-      {/* NAVBAR */}
       <nav className="border-b border-slate-100 px-8 py-5">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
-
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 bg-black rounded-lg"></div>
             <span className="text-lg">Starter</span>
@@ -129,13 +111,10 @@ function Dashboard() {
               Logout
             </button>
           </div>
-
         </div>
       </nav>
 
-      {/* MAIN */}
       <main className="max-w-7xl mx-auto px-8 py-12">
-
         <div className="mb-12">
           <h1 className="text-4xl mb-3">
             Welcome, {userType === "startup" ? firstName : "Investor"}
@@ -146,10 +125,7 @@ function Dashboard() {
           </p>
         </div>
 
-        {/* CARDS */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 mb-12">
-
-          {/* Diagnostic */}
           <div
             ref={diagnosticRef}
             className={`relative ${
@@ -170,7 +146,6 @@ function Dashboard() {
             </button>
           </div>
 
-          {/* Feed */}
           <div
             ref={feedRef}
             className={`relative ${
@@ -193,7 +168,6 @@ function Dashboard() {
             </button>
           </div>
 
-          {/* Answer Engine */}
           <div
             ref={resourcesRef}
             className={`relative ${
@@ -215,45 +189,59 @@ function Dashboard() {
               </p>
             </button>
           </div>
-
         </div>
 
-        {/* ROADMAP */}
-        {diagnosticCompleted && (
+        {diagnosticCompleted ? (
           <div className="bg-white rounded-xl border border-slate-200 p-8">
-            <h2 className="text-2xl mb-6">Your AI-Powered Roadmap</h2>
+            <h2 className="text-2xl mb-2">Your AI-Powered Funding Matches</h2>
 
-            <div className="space-y-3">
+            {answers?.industry && answers?.stage && answers?.location && (
+              <p className="text-sm text-slate-500 mb-6">
+                Based on your {answers.stage.toLowerCase()}{" "}
+                {answers.industry.toLowerCase()} startup in {answers.location}.
+              </p>
+            )}
 
-              <div className="flex items-start gap-4 p-5 bg-slate-50 rounded-lg">
-                <div className="w-7 h-7 bg-black rounded-full flex items-center justify-center"></div>
-                <div>
-                  <h4>Market Validation</h4>
-                  <p className="text-sm text-slate-500">
-                    Completed: Customer interviews and market research
-                  </p>
+            <div className="space-y-4">
+              {recommendedGrants.map((grant, index) => (
+                <div
+                  key={`${grant.name || "grant"}-${index}`}
+                  className="flex items-start gap-4 p-5 border border-slate-200 rounded-lg"
+                >
+                  <div className="w-7 h-7 bg-black text-white rounded-full flex items-center justify-center text-sm">
+                    {index + 1}
+                  </div>
+
+                  <div>
+                    <h4>{grant.name || "Unnamed Grant"}</h4>
+                    <p className="text-sm text-slate-500">
+                      {grant.amount || "Amount not provided"}
+                    </p>
+                    <p className="text-sm text-slate-600 mt-1">
+                      {grant.reason || "No explanation provided."}
+                    </p>
+                  </div>
                 </div>
-              </div>
-
-              <div className="flex items-start gap-4 p-5 border border-slate-200 rounded-lg">
-                <div className="w-7 h-7 bg-black text-white rounded-full flex items-center justify-center text-sm">
-                  2
-                </div>
-                <div>
-                  <h4>Build MVP</h4>
-                  <p className="text-sm text-slate-500">
-                    In Progress: Develop minimum viable product
-                  </p>
-                </div>
-              </div>
-
+              ))}
             </div>
           </div>
-        )}
+        ) : (
+          <div className="bg-white rounded-xl border border-slate-200 p-8">
+            <h2 className="text-2xl mb-4">Your AI-Powered Roadmap</h2>
+            <p className="text-slate-500 mb-6">
+              Complete the diagnostic questionnaire to receive personalized funding matches.
+            </p>
 
+            <button
+              onClick={handleDiagnostic}
+              className="px-5 py-2 bg-black text-white rounded-lg hover:bg-slate-800 transition-colors"
+            >
+              Start Diagnostic
+            </button>
+          </div>
+        )}
       </main>
 
-      {/* TOUR MODAL */}
       {showTour && (
         <>
           <div
