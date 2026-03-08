@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useState } from "react";
 
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
@@ -6,9 +7,19 @@ import Profile from "./pages/Profile";
 import Questionnaire from "./pages/Questionnaire/Questionnaire";
 import CommunityFeed from "./pages/CommunityFeed";
 import AnswerEngine from "./pages/AnswerEngine";
+
 import ProtectedRoute from "./components/ProtectedRoute";
+import LoadingScreen from "./components/LoadingScreen";
 
 function App() {
+  const [loading, setLoading] = useState(true);
+
+  // Show loading screen first
+  if (loading) {
+    return <LoadingScreen onComplete={() => setLoading(false)} />;
+  }
+
+  // After animation finishes, render the app
   return (
     <BrowserRouter>
       <Routes>
@@ -33,7 +44,7 @@ function App() {
         />
 
         <Route
-          path="/Questionnaire"
+          path="/questionnaire"
           element={
             <ProtectedRoute>
               <Questionnaire />
