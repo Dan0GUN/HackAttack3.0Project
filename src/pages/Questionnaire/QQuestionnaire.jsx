@@ -1,9 +1,7 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { ArrowRight, ArrowLeft, Check } from 'lucide-react';
 
 export default function QQuestionnaire({ onComplete }){
-    const navigate = useNavigate();
     const [currentStep, setCurrentStep] = useState(0); // Question _ of 6
     const [answers, setAnswers] = useState({}); // Used to hold the specific answers they pick
     
@@ -88,7 +86,7 @@ export default function QQuestionnaire({ onComplete }){
         {
             setCurrentStep(currentStep + 1); // Set next step to be i + 1
         }else{
-            navigate('/dashboard'); // Navigate to dashboard after completion
+            onComplete(); // It is complete
         }
     };
 

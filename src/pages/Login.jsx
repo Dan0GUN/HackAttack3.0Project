@@ -20,7 +20,7 @@ function Login() {
   const loginEmail = async () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      navigate("/dashboard");
+      navigate("/Questionnaire");
     } catch (error) {
       console.error(error);
       alert(error.message);
@@ -31,7 +31,7 @@ function Login() {
     try {
       const provider = new GoogleAuthProvider();
       await signInWithPopup(auth, provider);
-      navigate("/dashboard");
+      navigate("/Questionnaire");
     } catch (error) {
       console.error(error);
       alert(error.message);
@@ -75,15 +75,16 @@ function Login() {
             onClick={() => setAccountType("mentor")}
             className={`w-1/2 py-4 rounded-2xl text-[18px] font-medium transition ${
               accountType === "mentor"
-                ? "bg-white text-black shadow-sm"
-                : "text-[#60708A]"
+                ? "bg-white shadow text-black"
+                : "text-gray-700"
             }`}
           >
             Mentor / Investor
           </button>
         </div>
 
-        <label className="block text-black font-semibold text-[16px] mb-3">
+        {/* Email */}
+        <label className="text-sm font-medium text-gray-700">
           Email
         </label>
 
@@ -122,9 +123,10 @@ function Login() {
           Sign In as {accountType === "startup" ? "Startup" : "Mentor"}
         </button>
 
-        <div className="flex items-center gap-4 mb-8">
-          <div className="flex-1 h-px bg-[#d8dee8]" />
-          <span className="text-[#7a8597] text-[16px] whitespace-nowrap">
+        {/* Divider */}
+          <div className="flex-1 h-px bg-gray-300"></div>
+
+          <span className="px-3 text-gray-600 text-sm">
             OR CONTINUE WITH
           </span>
           <div className="flex-1 h-px bg-[#d8dee8]" />
@@ -173,6 +175,7 @@ function Login() {
           </button>
         </div>
 
+        {/* Create account */}
         <p className="text-center text-[16px] text-[#60708A]">
           New here?{" "}
           <span
@@ -183,7 +186,6 @@ function Login() {
           </span>
         </p>
       </div>
-    </div>
   );
 }
 
