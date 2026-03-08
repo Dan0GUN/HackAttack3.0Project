@@ -5,3 +5,51 @@ body{
 *{
     color: black;
 }
+
+
+body
+{
+    font-family: "Lato", sans-serif
+}
+
+h3{
+  padding-right: 500px;  
+}
+
+.container{
+    display: grid;
+    place-items: center;
+}
+
+h1{
+    padding-top: 20px;
+    padding-bottom: 40px;
+    padding-right: 90px;
+    font-weight: 550;
+}
+
+hr{
+    color: #808080 solid;
+    opacity: 0.2;
+}
+
+.option{
+    border: 0.5px #808080 solid;
+    font-size: medium;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 15px;
+    width: 700px;
+    display: flex;
+    height: 60px;
+    align-items: center;
+    margin-bottom: 12px;
+    text-align: left;
+}
+
+.back .next{
+    size: 100px;
+    padding: 15px;
+    margin: 15px;
+    border-radius: 15px;
+}

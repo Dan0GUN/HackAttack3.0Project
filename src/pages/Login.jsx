@@ -21,7 +21,7 @@ function Login() {
 
       await signInWithEmailAndPassword(auth, email, password);
 
-      navigate("/dashboard");
+      navigate("/Questionnaire");
 
     } catch (error) {
       console.error(error);
@@ -37,7 +37,7 @@ function Login() {
 
       await signInWithPopup(auth, provider);
 
-      navigate("/dashboard");
+      navigate("/Questionnaire");
 
     } catch (error) {
       console.error(error);
@@ -50,11 +50,11 @@ function Login() {
 
       <div className="bg-white w-[420px] p-8 rounded-xl shadow">
 
-        <h1 className="text-2xl font-bold text-center mb-2">
+        <h1 className="text-2xl font-bold text-center mb-2 text-black">
           Login
         </h1>
 
-        <p className="text-center text-gray-500 mb-6">
+        <p className="text-center text-gray-700 mb-6">
           Select your account type to sign in
         </p>
 
@@ -65,8 +65,8 @@ function Login() {
             onClick={() => setAccountType("startup")}
             className={`flex-1 py-2 rounded-lg ${
               accountType === "startup"
-                ? "bg-white shadow"
-                : "text-gray-500"
+                ? "bg-white shadow text-black"
+                : "text-gray-700"
             }`}
           >
             Startup
@@ -76,8 +76,8 @@ function Login() {
             onClick={() => setAccountType("mentor")}
             className={`flex-1 py-2 rounded-lg ${
               accountType === "mentor"
-                ? "bg-white shadow"
-                : "text-gray-500"
+                ? "bg-white shadow text-black"
+                : "text-gray-700"
             }`}
           >
             Mentor / Investor
@@ -86,21 +86,21 @@ function Login() {
         </div>
 
         {/* Email */}
-        <label className="text-sm font-medium">
+        <label className="text-sm font-medium text-gray-700">
           Email
         </label>
 
         <input
           type="email"
           placeholder="name@example.com"
-          className="w-full border rounded-lg p-3 mt-1 mb-4"
+          className="w-full border rounded-lg p-3 mt-1 mb-4 bg-white text-black"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
 
         {/* Password */}
         <div className="flex justify-between text-sm">
-          <label>Password</label>
+          <label className="text-gray-700">Password</label>
           <a className="text-blue-500 cursor-pointer">
             Forgot?
           </a>
@@ -108,7 +108,7 @@ function Login() {
 
         <input
           type="password"
-          className="w-full border rounded-lg p-3 mt-1 mb-6"
+          className="w-full border rounded-lg p-3 mt-1 mb-6 bg-white text-black"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
@@ -126,7 +126,7 @@ function Login() {
 
           <div className="flex-1 h-px bg-gray-300"></div>
 
-          <span className="px-3 text-gray-400 text-sm">
+          <span className="px-3 text-gray-600 text-sm">
             OR CONTINUE WITH
           </span>
 
@@ -139,7 +139,7 @@ function Login() {
 
           <button
             onClick={loginGoogle}
-            className="flex-1 border rounded-lg py-3 hover:bg-gray-50"
+            className="flex-1 border rounded-lg py-3 hover:bg-gray-50 text-gray-700"
           >
             Google
           </button>
@@ -147,7 +147,7 @@ function Login() {
         </div>
 
         {/* Create account */}
-        <p className="text-center text-sm text-gray-500">
+        <p className="text-center text-sm text-gray-700">
           New here?{" "}
           <span className="font-medium text-black cursor-pointer">
             Create an account
