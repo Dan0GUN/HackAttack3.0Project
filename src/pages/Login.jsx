@@ -18,30 +18,16 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // EMAIL LOGIN
   const loginEmail = async () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      navigate("/Questionnaire");
+      navigate("/questionnaire");
     } catch (error) {
       console.error(error);
       alert(error.message);
     }
   };
 
-<<<<<<< HEAD
-  const signupEmail = async () => {
-    try {
-      await createUserWithEmailAndPassword(auth, email, password);
-      navigate("/Questionnaire");
-    } catch (error) {
-      console.error(error);
-      alert(error.message);
-    }
-  };
-
-=======
-  // EMAIL SIGNUP
   const signupEmail = async () => {
     try {
       const userCredential = await createUserWithEmailAndPassword(
@@ -51,8 +37,7 @@ function Login() {
       );
 
       console.log("User created:", userCredential.user);
-
-      navigate("/Questionnaire");
+      navigate("/questionnaire");
     } catch (error) {
       if (error.code === "auth/email-already-in-use") {
         alert("Account already exists. Please sign in instead.");
@@ -63,20 +48,17 @@ function Login() {
     }
   };
 
-  // GOOGLE LOGIN
->>>>>>> f0dac1b0ef89a173f80e7b0ace74764d25ae6993
   const loginGoogle = async () => {
     try {
       const provider = new GoogleAuthProvider();
       await signInWithPopup(auth, provider);
-      navigate("/Questionnaire");
+      navigate("/questionnaire");
     } catch (error) {
       console.error(error);
       alert(error.message);
     }
   };
 
-  // GITHUB LOGIN
   const loginGithub = async () => {
     try {
       const provider = new GithubAuthProvider();
@@ -86,8 +68,7 @@ function Login() {
       });
 
       await signInWithPopup(auth, provider);
-
-      navigate("/Questionnaire");
+      navigate("/questionnaire");
     } catch (error) {
       console.error(error);
       alert(error.message);
@@ -124,13 +105,15 @@ function Login() {
           Select your account type to {isSignup ? "create an account" : "sign in"}
         </p>
 
-        <div className="flex bg-[#eef1f5] rounded-2xl p-1 mb-10">
+        {/* ACCOUNT TYPE TOGGLE */}
+        <div className="flex bg-white rounded-2xl p-1 mb-10 border border-gray-200">
+
           <button
             onClick={() => setAccountType("startup")}
-            className={`w-1/2 py-4 rounded-2xl text-[18px] font-medium ${
+            className={`w-1/2 py-4 rounded-2xl text-[18px] font-medium transition ${
               accountType === "startup"
-                ? "bg-white text-black shadow-sm"
-                : "text-[#60708A]"
+                ? "bg-white text-black shadow"
+                : "bg-transparent text-gray-500"
             }`}
           >
             Startup
@@ -138,14 +121,15 @@ function Login() {
 
           <button
             onClick={() => setAccountType("mentor")}
-            className={`w-1/2 py-4 rounded-2xl text-[18px] font-medium ${
+            className={`w-1/2 py-4 rounded-2xl text-[18px] font-medium transition ${
               accountType === "mentor"
-                ? "bg-white shadow text-black"
-                : "text-gray-700"
+                ? "bg-white text-black shadow"
+                : "bg-transparent text-gray-500"
             }`}
           >
             Mentor / Investor
           </button>
+
         </div>
 
         <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -155,13 +139,12 @@ function Login() {
         <input
           type="email"
           placeholder="name@example.com"
-          className="w-full h-[56px] rounded-2xl border border-[#d8dee8] px-5 mb-6"
+          className="w-full h-[56px] rounded-2xl border border-gray-300 px-5 mb-6"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
 
-<<<<<<< HEAD
-        <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center justify-between mb-2">
           <label className="block text-black font-semibold text-[16px]">
             Password
           </label>
@@ -175,40 +158,21 @@ function Login() {
             </button>
           )}
         </div>
-=======
-        <label className="block text-black font-semibold mb-2">
-          Password
-        </label>
->>>>>>> f0dac1b0ef89a173f80e7b0ace74764d25ae6993
 
         <input
           type="password"
-          className="w-full h-[56px] rounded-2xl border border-[#d8dee8] px-5 mb-6"
+          className="w-full h-[56px] rounded-2xl border border-gray-300 px-5 mb-6"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
 
         <button
-<<<<<<< HEAD
           onClick={handleSubmit}
           className="w-full h-[60px] rounded-2xl bg-black text-white text-[18px] font-medium mb-8 hover:opacity-95 transition"
         >
           {isSignup
             ? `Create ${accountType === "startup" ? "Startup" : "Mentor"} Account`
             : `Sign In as ${accountType === "startup" ? "Startup" : "Mentor"}`}
-=======
-          onClick={loginEmail}
-          className="w-full h-[60px] bg-black text-white rounded-2xl mb-4"
-        >
-          Sign In
-        </button>
-
-        <button
-          onClick={signupEmail}
-          className="w-full h-[60px] border border-black rounded-2xl mb-8"
-        >
-          Create Account
->>>>>>> f0dac1b0ef89a173f80e7b0ace74764d25ae6993
         </button>
 
         <div className="flex items-center gap-4 mb-8">
@@ -217,23 +181,24 @@ function Login() {
           <div className="flex-1 h-px bg-gray-300" />
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-4 mb-8">
+
           <button
             onClick={loginGithub}
-            className="h-[56px] border rounded-2xl"
+            className="h-[56px] border border-gray-300 rounded-2xl"
           >
             Github
           </button>
 
           <button
             onClick={loginGoogle}
-            className="h-[56px] border rounded-2xl"
+            className="h-[56px] border border-gray-300 rounded-2xl"
           >
             Google
           </button>
+
         </div>
 
-<<<<<<< HEAD
         <p className="text-center text-[16px] text-[#60708A]">
           {isSignup ? "Already have an account? " : "New here? "}
           <span
@@ -243,8 +208,7 @@ function Login() {
             {isSignup ? "Sign in" : "Create an account"}
           </span>
         </p>
-=======
->>>>>>> f0dac1b0ef89a173f80e7b0ace74764d25ae6993
+
       </div>
     </div>
   );

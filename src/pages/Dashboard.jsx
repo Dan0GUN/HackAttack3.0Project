@@ -96,7 +96,7 @@ function Dashboard() {
 
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 bg-black rounded-lg"></div>
-            <span className="text-lg">Ecosystem</span>
+            <span className="text-lg">Starter</span>
           </div>
 
           <div className="flex items-center gap-3">
