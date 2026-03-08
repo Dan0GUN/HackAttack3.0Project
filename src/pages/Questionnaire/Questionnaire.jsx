@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, ArrowLeft, Check } from "lucide-react";
+import { findFunding } from "../../api/api";
 
 function Questionnaire() {
   const navigate = useNavigate();
@@ -88,14 +89,26 @@ function Questionnaire() {
     });
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (currentStep < questions.length - 1) {
       setCurrentStep(currentStep + 1);
-    } else {
-      console.log("Questionnaire answers:", answers);
-      navigate("/dashboard");
-    }
-  };
+      } else {
+        console.log("Submitting answers:", answers);
+
+        try {
+          const res = await fetch("http://127.0.0.1:8000");
+
+          const data = await res.json();
+
+          console.log("Backend response:", data);
+
+        } catch (err) {
+          console.error("Backend error:", err);
+        }
+
+        navigate("/dashboard");
+      }
+      };
 
   const handleBack = () => {
     if (currentStep > 0) {
@@ -104,6 +117,25 @@ function Questionnaire() {
       navigate("/dashboard");
     }
   };
+
+  async function handleSubmit() {
+    const data = {
+      location: "Canada",
+      industry: "AI",
+      stage: "MVP",
+      team_size: 3,
+      funding_need: 50000,
+      business_model: "SaaS",
+      target_market: "SMBs",
+    };
+
+    try {
+      const grants = await findFunding(data);
+      console.log(grants);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   const progress = ((currentStep + 1) / questions.length) * 100;
   const currentQuestion = questions[currentStep];
