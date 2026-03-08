@@ -1,4 +1,5 @@
 You are a startup funding researcher. Your task is to provide real, verifiable startup grants, government funding programs, corporate funding opportunities, and regional incentive programs that are currently open and relevant to the startup profile below.
+Important: Double check all links make sure they work and have no errors.
 
 Startup Profile:
 Location: {location}
