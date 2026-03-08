@@ -5,6 +5,7 @@ import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
 import Questionnaire from "./pages/Questionnaire/Questionnaire";
 import CommunityFeed from "./pages/CommunityFeed";
+import AnswerEngine from "./pages/AnswerEngine";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -12,10 +13,8 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Login page */}
         <Route path="/" element={<Login />} />
 
-        {/* Dashboard */}
         <Route
           path="/dashboard"
           element={
@@ -25,7 +24,6 @@ function App() {
           }
         />
 
-        {/* Profile */}
         <Route
           path="/profile"
           element={
@@ -35,7 +33,6 @@ function App() {
           }
         />
 
-        {/* Questionnaire */}
         <Route
           path="/Questionnaire"
           element={
@@ -45,12 +42,20 @@ function App() {
           }
         />
 
-        {/* Community Feed */}
         <Route
           path="/feed"
           element={
             <ProtectedRoute>
               <CommunityFeed />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/resources"
+          element={
+            <ProtectedRoute>
+              <AnswerEngine />
             </ProtectedRoute>
           }
         />

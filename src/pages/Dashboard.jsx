@@ -40,6 +40,7 @@ function Dashboard() {
   const handleDashboard = () => navigate("/dashboard");
   const handleFeed = () => navigate("/feed");
   const handleDiagnostic = () => navigate("/Questionnaire");
+  const handleResources = () => navigate("/resources");
 
   const tourSteps = [
     {
@@ -120,7 +121,10 @@ function Dashboard() {
               Feed
             </button>
 
-            <button className="px-4 py-2 text-sm hover:bg-slate-50 rounded-lg transition-colors">
+            <button
+              onClick={handleResources}
+              className="px-4 py-2 text-sm hover:bg-slate-50 rounded-lg transition-colors"
+            >
               Resources
             </button>
 
@@ -241,7 +245,10 @@ function Dashboard() {
                 : ""
             }`}
           >
-            <button className="w-full bg-white p-8 rounded-xl border border-slate-200 hover:border-slate-300 transition-all text-left group">
+            <button
+              onClick={handleResources}
+              className="w-full bg-white p-8 rounded-xl border border-slate-200 hover:border-slate-300 transition-all text-left group"
+            >
               <div className="mb-4">
                 <Search className="w-6 h-6" />
               </div>
@@ -342,23 +349,6 @@ function Dashboard() {
                 </div>
               </div>
             </div>
-          </div>
-        )}
-
-        {!diagnosticCompleted && userType === "startup" && (
-          <div className="bg-slate-50 rounded-xl p-12 text-center">
-            <h2 className="text-2xl mb-3">Get Your Personalized Roadmap</h2>
-            <p className="text-slate-600 mb-6 max-w-2xl mx-auto">
-              Complete the diagnostic questionnaire to unlock AI-powered
-              recommendations, step-by-step guidance, and access to relevant
-              mentors and resources.
-            </p>
-            <button
-              onClick={handleDiagnostic}
-              className="px-8 py-3 bg-black text-white rounded-lg hover:bg-slate-800 transition-colors"
-            >
-              Start Diagnostic
-            </button>
           </div>
         )}
       </main>
