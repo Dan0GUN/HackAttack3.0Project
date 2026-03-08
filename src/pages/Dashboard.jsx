@@ -75,19 +75,21 @@ function Dashboard() {
     }
   }, [showTour, tourStep]);
 
+  // FIXED POSITION
   const getTooltipPosition = (ref) => {
     if (!ref?.current) return { top: "50%", left: "50%" };
 
     const rect = ref.current.getBoundingClientRect();
 
     return {
-      top: `${rect.top + window.scrollY - 120}px`,
+      top: `${rect.top + window.scrollY}px`,
       left: `${rect.left + rect.width / 2}px`,
     };
   };
 
   return (
     <div className="min-h-screen bg-white">
+
       {/* NAVBAR */}
       <nav className="border-b border-slate-100 px-8 py-5">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
@@ -251,7 +253,6 @@ function Dashboard() {
                 ? {
                     ...getTooltipPosition(tourSteps[tourStep].targetRef),
                     transform: "translate(-50%, -100%)",
-                    marginTop: "-20px",
                   }
                 : {
                     top: "50%",
