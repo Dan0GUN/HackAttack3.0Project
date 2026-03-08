@@ -2,9 +2,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight, ArrowLeft, Check } from "lucide-react";
 import { findFunding } from "../../api/api";
+import { useQuestionnaire } from "../../context/QuestionnaireContext";
 
 function Questionnaire() {
   const navigate = useNavigate();
+  const { setAnswers: setContextAnswers, setRecommendedGrants } = useQuestionnaire();
 
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState({});
@@ -92,23 +94,24 @@ function Questionnaire() {
   const handleNext = async () => {
     if (currentStep < questions.length - 1) {
       setCurrentStep(currentStep + 1);
-      } else {
-        console.log("Submitting answers:", answers);
+    } else {
+      // Save answers to context
+      setContextAnswers(answers);
+      
+      console.log("Submitting answers:", answers);
 
-        try {
-          const res = await fetch("http://127.0.0.1:8000");
-
-          const data = await res.json();
-
-          console.log("Backend response:", data);
-
-        } catch (err) {
-          console.error("Backend error:", err);
-        }
-
-        navigate("/dashboard");
+      try {
+        // Fetch recommended grants from backend
+        const grants = await findFunding(answers);
+        setRecommendedGrants(grants.recommendations || []);
+        console.log("Recommended grants:", grants);
+      } catch (err) {
+        console.error("Backend error:", err);
       }
-      };
+
+      navigate("/resources");
+    }
+  };
 
   const handleBack = () => {
     if (currentStep > 0) {

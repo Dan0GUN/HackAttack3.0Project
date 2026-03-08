@@ -10,6 +10,7 @@ import {
   X,
   ArrowRight,
 } from "lucide-react";
+import { findFunding } from "../api/backend";
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -85,6 +86,20 @@ function Dashboard() {
       top: `${rect.top + window.scrollY}px`,
       left: `${rect.left + rect.width / 2}px`,
     };
+  };
+
+  const handleGrantSearch = async () => {
+    const grants = await findFunding({
+      location: "Canada",
+      industry: "AI",
+      stage: "Seed",
+      team_size: 3,
+      funding_need: 50000,
+      business_model: "SaaS",
+      target_market: "SMBs",
+    });
+
+    console.log(grants);
   };
 
   return (
