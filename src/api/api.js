@@ -27,3 +27,33 @@ export async function searchCompliance(ideaDescription) {
 
   return response.json();
 }
+
+export async function saveQuestionnaireAnswers(userId, answers) {
+  console.log("Saving questionnaire answers for user:", userId);
+
+  const response = await fetch(`${API_URL}/questionnaire`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      user_id: userId,
+      answers: answers,
+    }),
+  });
+
+  return response.json();
+}
+
+export async function getQuestionnaireStatus(userId) {
+  console.log("Fetching questionnaire status for user:", userId);
+
+  const response = await fetch(`${API_URL}/questionnaire/${userId}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  return response.json();
+}

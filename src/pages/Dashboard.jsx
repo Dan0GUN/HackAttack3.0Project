@@ -26,6 +26,7 @@ function Dashboard() {
   const diagnosticCompleted = true;
 
   const handleLogout = async () => {
+    // Don't clear questionnaire status - user should skip it on next login
     await signOut(auth);
     navigate("/");
   };
@@ -36,7 +37,7 @@ function Dashboard() {
     "Founder";
 
   const handleFeed = () => navigate("/feed");
-  const handleDiagnostic = () => navigate("/Questionnaire");
+  const handleDiagnostic = () => navigate("/questionnaire");
   const handleResources = () => navigate("/resources");
 
   const tourSteps = [

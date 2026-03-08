@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 import { auth } from "../firebase";
 import {
@@ -18,11 +19,44 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  // Helper function to redirect after successful auth
+  const redirectAfterAuth = (userId, userAccountType, isNewUser = false) => {
+    // Store account type in localStorage
+    localStorage.setItem(`account_type_${userId}`, userAccountType);
+
+    // For new signup
+    if (isNewUser) {
+      // Only startups need questionnaire
+      if (userAccountType === "startup") {
+        navigate("/questionnaire");
+      } else {
+        // Mentors go straight to dashboard
+        navigate("/dashboard");
+      }
+    } else {
+      // For existing user login
+      // Mentors always go to dashboard
+      if (userAccountType === "mentor") {
+        navigate("/dashboard");
+      } else {
+        // Startups check questionnaire status
+        const completed = localStorage.getItem(`questionnaire_${userId}`);
+        if (completed) {
+          navigate("/dashboard");
+        } else {
+          navigate("/questionnaire");
+        }
+      }
+    }
+  };
+
   // EMAIL LOGIN
   const loginEmail = async () => {
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      navigate("/Questionnaire");
+      // Try to login first to see if account exists
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const storedAccountType = localStorage.getItem(`account_type_${userCredential.user.uid}`) || "startup";
+      redirectAfterAuth(userCredential.user.uid, storedAccountType, false);
     } catch (error) {
       console.error(error);
       alert(error.message);
@@ -39,8 +73,7 @@ function Login() {
       );
 
       console.log("User created:", userCredential.user);
-
-      navigate("/Questionnaire");
+      redirectAfterAuth(userCredential.user.uid, accountType, true);
     } catch (error) {
       if (error.code === "auth/email-already-in-use") {
         alert("Account already exists. Please sign in instead.");
@@ -55,8 +88,14 @@ function Login() {
   const loginGoogle = async () => {
     try {
       const provider = new GoogleAuthProvider();
-      await signInWithPopup(auth, provider);
-      navigate("/Questionnaire");
+      const userCredential = await signInWithPopup(auth, provider);
+      
+      // Check if this is a new user - safer check for metadata
+      const metadata = userCredential.metadata;
+      const isNewUser = metadata && metadata.creationTime === metadata.lastSignInTime;
+      const storedAccountType = localStorage.getItem(`account_type_${userCredential.user.uid}`) || accountType;
+      
+      redirectAfterAuth(userCredential.user.uid, storedAccountType, isNewUser);
     } catch (error) {
       console.error(error);
       alert(error.message);
@@ -72,9 +111,14 @@ function Login() {
         prompt: "select_account",
       });
 
-      await signInWithPopup(auth, provider);
-
-      navigate("/Questionnaire");
+      const userCredential = await signInWithPopup(auth, provider);
+      
+      // Check if this is a new user - safer check for metadata
+      const metadata = userCredential.metadata;
+      const isNewUser = metadata && metadata.creationTime === metadata.lastSignInTime;
+      const storedAccountType = localStorage.getItem(`account_type_${userCredential.user.uid}`) || accountType;
+      
+      redirectAfterAuth(userCredential.user.uid, storedAccountType, isNewUser);
     } catch (error) {
       console.error(error);
       alert(error.message);
