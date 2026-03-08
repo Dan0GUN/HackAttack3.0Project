@@ -28,19 +28,7 @@ function Login() {
       alert(error.message);
     }
   };
-
-<<<<<<< HEAD
-  const signupEmail = async () => {
-    try {
-      await createUserWithEmailAndPassword(auth, email, password);
-      navigate("/Questionnaire");
-    } catch (error) {
-      console.error(error);
-      alert(error.message);
-    }
-  };
-
-=======
+  
   // EMAIL SIGNUP
   const signupEmail = async () => {
     try {
@@ -64,7 +52,6 @@ function Login() {
   };
 
   // GOOGLE LOGIN
->>>>>>> f0dac1b0ef89a173f80e7b0ace74764d25ae6993
   const loginGoogle = async () => {
     try {
       const provider = new GoogleAuthProvider();
@@ -160,26 +147,9 @@ function Login() {
           onChange={(e) => setEmail(e.target.value)}
         />
 
-<<<<<<< HEAD
-        <div className="flex items-center justify-between mb-3">
-          <label className="block text-black font-semibold text-[16px]">
-            Password
-          </label>
-
-          {!isSignup && (
-            <button
-              type="button"
-              className="text-[#2f6bff] text-[16px] font-medium"
-            >
-              Forgot?
-            </button>
-          )}
-        </div>
-=======
         <label className="block text-black font-semibold mb-2">
           Password
         </label>
->>>>>>> f0dac1b0ef89a173f80e7b0ace74764d25ae6993
 
         <input
           type="password"
@@ -189,14 +159,6 @@ function Login() {
         />
 
         <button
-<<<<<<< HEAD
-          onClick={handleSubmit}
-          className="w-full h-[60px] rounded-2xl bg-black text-white text-[18px] font-medium mb-8 hover:opacity-95 transition"
-        >
-          {isSignup
-            ? `Create ${accountType === "startup" ? "Startup" : "Mentor"} Account`
-            : `Sign In as ${accountType === "startup" ? "Startup" : "Mentor"}`}
-=======
           onClick={loginEmail}
           className="w-full h-[60px] bg-black text-white rounded-2xl mb-4"
         >
@@ -208,7 +170,6 @@ function Login() {
           className="w-full h-[60px] border border-black rounded-2xl mb-8"
         >
           Create Account
->>>>>>> f0dac1b0ef89a173f80e7b0ace74764d25ae6993
         </button>
 
         <div className="flex items-center gap-4 mb-8">
@@ -233,18 +194,6 @@ function Login() {
           </button>
         </div>
 
-<<<<<<< HEAD
-        <p className="text-center text-[16px] text-[#60708A]">
-          {isSignup ? "Already have an account? " : "New here? "}
-          <span
-            className="text-black font-semibold cursor-pointer"
-            onClick={() => setIsSignup(!isSignup)}
-          >
-            {isSignup ? "Sign in" : "Create an account"}
-          </span>
-        </p>
-=======
->>>>>>> f0dac1b0ef89a173f80e7b0ace74764d25ae6993
       </div>
     </div>
   );

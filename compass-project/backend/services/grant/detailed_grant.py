@@ -16,8 +16,6 @@ router2 = APIRouter(prefix="/grant-details", tags=["grant-details"])
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 PROMPT_PATH = BASE_DIR / "data" / "second_prompt_grant.txt"
 
-
-
 @router2.post("/")
 def get_grant_details(grant: GrantInfo):
     # Load prompt template

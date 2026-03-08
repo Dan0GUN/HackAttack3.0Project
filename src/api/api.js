@@ -13,3 +13,17 @@ export async function findFunding(data) {
 
   return response.json();
 }
+
+export async function searchCompliance(ideaDescription) {
+  console.log("Searching compliance for:", ideaDescription);
+
+  const response = await fetch(`${API_URL}/legal_info`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ idea_description: ideaDescription }),
+  });
+
+  return response.json();
+}
