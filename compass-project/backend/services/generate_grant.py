@@ -10,11 +10,11 @@ load_dotenv()
 
 api_key = os.getenv("OPENAI_API_KEY")
 client = OpenAI(api_key=api_key)
-router = APIRouter(prefix="/funding", tags=["funding"])
+router1 = APIRouter(prefix="/funding", tags=["funding"])
 
 
 
-@router.post("/")
+@router1.post("/")
 def find_funding(data: StartUpInfo):
     with open("compass-project/backend/data/prompt.txt", "r") as file:
         prompt_template = file.read()
