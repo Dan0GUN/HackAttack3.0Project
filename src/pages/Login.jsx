@@ -14,6 +14,7 @@ function Login() {
   const navigate = useNavigate();
 
   const [accountType, setAccountType] = useState("startup");
+  const [isSignup, setIsSignup] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -27,7 +28,7 @@ function Login() {
       alert(error.message);
     }
   };
-
+  
   // EMAIL SIGNUP
   const signupEmail = async () => {
     try {
@@ -80,16 +81,34 @@ function Login() {
     }
   };
 
+  const handleSubmit = async () => {
+    if (!email || !password) {
+      alert("Please enter your email and password.");
+      return;
+    }
+
+    if (password.length < 6) {
+      alert("Password must be at least 6 characters.");
+      return;
+    }
+
+    if (isSignup) {
+      await signupEmail();
+    } else {
+      await loginEmail();
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white flex items-start justify-center px-6 pt-10">
       <div className="w-full max-w-[560px] bg-white">
 
         <h1 className="text-[42px] font-bold text-center text-black mb-2">
-          Login
+          {isSignup ? "Create Account" : "Login"}
         </h1>
 
         <p className="text-center text-[#60708A] text-[18px] mb-10">
-          Select your account type to sign in
+          Select your account type to {isSignup ? "create an account" : "sign in"}
         </p>
 
         <div className="flex bg-[#eef1f5] rounded-2xl p-1 mb-10">
