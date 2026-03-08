@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
 import {
   signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
   GoogleAuthProvider,
   GithubAuthProvider,
   signInWithPopup,
@@ -13,12 +14,23 @@ function Login() {
   const navigate = useNavigate();
 
   const [accountType, setAccountType] = useState("startup");
+  const [isSignup, setIsSignup] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const loginEmail = async () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
+      navigate("/Questionnaire");
+    } catch (error) {
+      console.error(error);
+      alert(error.message);
+    }
+  };
+
+  const signupEmail = async () => {
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
       navigate("/Questionnaire");
     } catch (error) {
       console.error(error);
@@ -40,6 +52,7 @@ function Login() {
   const loginGithub = async () => {
     try {
       const provider = new GithubAuthProvider();
+      provider.addScope("user:email");
       await signInWithPopup(auth, provider);
       navigate("/Questionnaire");
     } catch (error) {
@@ -48,15 +61,33 @@ function Login() {
     }
   };
 
+  const handleSubmit = async () => {
+    if (!email || !password) {
+      alert("Please enter your email and password.");
+      return;
+    }
+
+    if (password.length < 6) {
+      alert("Password must be at least 6 characters.");
+      return;
+    }
+
+    if (isSignup) {
+      await signupEmail();
+    } else {
+      await loginEmail();
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white flex items-start justify-center px-6 pt-10">
       <div className="w-full max-w-[560px] bg-white">
         <h1 className="text-[42px] font-bold text-center text-black mb-2">
-          Login
+          {isSignup ? "Create Account" : "Login"}
         </h1>
 
         <p className="text-center text-[#60708A] text-[18px] mb-10">
-          Select your account type to sign in
+          Select your account type to {isSignup ? "create an account" : "sign in"}
         </p>
 
         <div className="flex bg-[#eef1f5] rounded-2xl p-1 mb-10">
@@ -100,12 +131,14 @@ function Login() {
             Password
           </label>
 
-          <button
-            type="button"
-            className="text-[#2f6bff] text-[16px] font-medium"
-          >
-            Forgot?
-          </button>
+          {!isSignup && (
+            <button
+              type="button"
+              className="text-[#2f6bff] text-[16px] font-medium"
+            >
+              Forgot?
+            </button>
+          )}
         </div>
 
         <input
@@ -116,10 +149,12 @@ function Login() {
         />
 
         <button
-          onClick={loginEmail}
+          onClick={handleSubmit}
           className="w-full h-[60px] rounded-2xl bg-black text-white text-[18px] font-medium mb-8 hover:opacity-95 transition"
         >
-          Sign In as {accountType === "startup" ? "Startup" : "Mentor"}
+          {isSignup
+            ? `Create ${accountType === "startup" ? "Startup" : "Mentor"} Account`
+            : `Sign In as ${accountType === "startup" ? "Startup" : "Mentor"}`}
         </button>
 
         <div className="flex items-center gap-4 mb-8">
@@ -174,12 +209,12 @@ function Login() {
         </div>
 
         <p className="text-center text-[16px] text-[#60708A]">
-          New here?{" "}
+          {isSignup ? "Already have an account? " : "New here? "}
           <span
             className="text-black font-semibold cursor-pointer"
-            onClick={() => navigate("/signup")}
+            onClick={() => setIsSignup(!isSignup)}
           >
-            Create an account
+            {isSignup ? "Sign in" : "Create an account"}
           </span>
         </p>
       </div>
