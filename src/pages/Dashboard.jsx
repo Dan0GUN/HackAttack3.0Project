@@ -37,6 +37,10 @@ function Dashboard() {
     user?.email?.split("@")[0] ||
     "Founder";
 
+  const handleDashboard = () => navigate("/dashboard");
+  const handleFeed = () => navigate("/feed");
+  const handleDiagnostic = () => navigate("/Questionnaire");
+
   const tourSteps = [
     {
       title: "Welcome to Your Dashboard",
@@ -103,20 +107,27 @@ function Dashboard() {
 
           <div className="flex items-center gap-1">
             <button
-              onClick={() => navigate("/dashboard")}
+              onClick={handleDashboard}
               className="px-4 py-2 text-sm hover:bg-slate-50 rounded-lg transition-colors"
             >
               Dashboard
             </button>
-            <button className="px-4 py-2 text-sm hover:bg-slate-50 rounded-lg transition-colors">
+
+            <button
+              onClick={handleFeed}
+              className="px-4 py-2 text-sm hover:bg-slate-50 rounded-lg transition-colors"
+            >
               Feed
             </button>
+
             <button className="px-4 py-2 text-sm hover:bg-slate-50 rounded-lg transition-colors">
               Resources
             </button>
+
             <button className="px-4 py-2 text-sm hover:bg-slate-50 rounded-lg transition-colors">
               Masterclass
             </button>
+
             <button className="px-4 py-2 text-sm hover:bg-slate-50 rounded-lg transition-colors">
               Messages
             </button>
@@ -164,7 +175,7 @@ function Dashboard() {
                 </p>
 
                 <button
-                  onClick={() => navigate("/Questionnaire")}
+                  onClick={handleDiagnostic}
                   className="px-6 py-2.5 bg-black text-white rounded-lg hover:bg-slate-800 transition-colors inline-flex items-center gap-2"
                 >
                   Start Diagnostic
@@ -185,7 +196,7 @@ function Dashboard() {
             }`}
           >
             <button
-              onClick={() => navigate("/Questionnaire")}
+              onClick={handleDiagnostic}
               className="w-full bg-white p-8 rounded-xl border border-slate-200 hover:border-slate-300 transition-all text-left group"
             >
               <div className="mb-4">
@@ -206,7 +217,10 @@ function Dashboard() {
                 : ""
             }`}
           >
-            <button className="w-full bg-white p-8 rounded-xl border border-slate-200 hover:border-slate-300 transition-all text-left group">
+            <button
+              onClick={handleFeed}
+              className="w-full bg-white p-8 rounded-xl border border-slate-200 hover:border-slate-300 transition-all text-left group"
+            >
               <div className="mb-4">
                 <Users className="w-6 h-6" />
               </div>
@@ -340,7 +354,7 @@ function Dashboard() {
               mentors and resources.
             </p>
             <button
-              onClick={() => navigate("/Questionnaire")}
+              onClick={handleDiagnostic}
               className="px-8 py-3 bg-black text-white rounded-lg hover:bg-slate-800 transition-colors"
             >
               Start Diagnostic

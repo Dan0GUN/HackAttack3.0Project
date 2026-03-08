@@ -4,18 +4,18 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
 import Questionnaire from "./pages/Questionnaire/Questionnaire";
+import CommunityFeed from "./pages/CommunityFeed";
+
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
     <BrowserRouter>
-
       <Routes>
-
         {/* Login page */}
         <Route path="/" element={<Login />} />
 
-        {/* Dashboard (protected) */}
+        {/* Dashboard */}
         <Route
           path="/dashboard"
           element={
@@ -25,7 +25,7 @@ function App() {
           }
         />
 
-        {/* Profile (protected) */}
+        {/* Profile */}
         <Route
           path="/profile"
           element={
@@ -35,20 +35,26 @@ function App() {
           }
         />
 
-        {/* Questionnaire (protected) */}
+        {/* Questionnaire */}
         <Route
           path="/Questionnaire"
-          element={<Questionnaire />}
+          element={
+            <ProtectedRoute>
+              <Questionnaire />
+            </ProtectedRoute>
+          }
         />
 
-      {/* Questionnaire (protected) */}
+        {/* Community Feed */}
         <Route
-          path="/Questionnaire"
-          element={<Questionnaire />}
+          path="/feed"
+          element={
+            <ProtectedRoute>
+              <CommunityFeed />
+            </ProtectedRoute>
+          }
         />
-
       </Routes>
-
     </BrowserRouter>
   );
 }
