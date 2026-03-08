@@ -58,7 +58,6 @@ function AnswerEngine() {
         </div>
       </nav>
 
-      {/* Category Tabs */}
       <div className="border-b border-slate-100 px-8 py-5 bg-slate-50">
         <div className="max-w-7xl mx-auto flex gap-2">
           <button
@@ -92,7 +91,6 @@ function AnswerEngine() {
       </div>
 
       <div className="max-w-7xl mx-auto px-8 py-8">
-        {/* AI Grants Tab */}
         {selectedCategory === "grants" && (
           <div className="space-y-6">
             <div className="bg-slate-50 rounded-xl p-5">
@@ -114,7 +112,6 @@ function AnswerEngine() {
                     key={grant.id}
                     className="border border-slate-200 rounded-xl p-6 hover:border-slate-300 transition-colors shadow-sm"
                   >
-                    {/* Grant Header */}
                     <div className="mb-6">
                       <div className="flex items-start justify-between mb-3">
                         <div>
@@ -134,7 +131,6 @@ function AnswerEngine() {
                       </div>
                     </div>
 
-                    {/* Grant Details Grid */}
                     <div className="grid grid-cols-2 gap-4 mb-6 pb-6 border-b border-slate-100">
                       <div>
                         <h4 className="text-sm font-semibold text-slate-600 mb-1">Type</h4>
@@ -154,19 +150,16 @@ function AnswerEngine() {
                       </div>
                     </div>
 
-                    {/* Match Reason */}
                     <div className="mb-6">
                       <h4 className="text-sm font-semibold text-slate-600 mb-2">Why This Grant</h4>
                       <p className="text-slate-700 leading-relaxed">{grant.match_reason}</p>
                     </div>
 
-                    {/* Eligibility */}
                     <div className="mb-6">
                       <h4 className="text-sm font-semibold text-slate-600 mb-2">Eligibility</h4>
                       <p className="text-slate-700 leading-relaxed">{grant.eligibility}</p>
                     </div>
 
-                    {/* Action Button */}
                     <button
                       onClick={() => setSelectedGrant(grant)}
                       className="w-full px-5 py-3 bg-black text-white rounded-lg hover:bg-slate-800 transition-colors text-sm font-medium"
@@ -186,10 +179,8 @@ function AnswerEngine() {
           </div>
         )}
 
-        {/* Compliance Tab */}
         {selectedCategory === "compliance" && (
           <div className="space-y-6">
-            {/* Search Bar */}
             <div className="relative">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
               <input
@@ -214,10 +205,8 @@ function AnswerEngine() {
               {loading ? "Searching..." : "Search Compliance"}
             </button>
 
-            {/* Compliance Results */}
             {complianceResults && (
               <div className="space-y-5">
-                {/* Business Registration */}
                 <div className="border border-slate-200 rounded-xl p-6">
                   <h3 className="text-lg font-semibold mb-3">Business Registration</h3>
                   <p className="text-slate-700 leading-relaxed">
@@ -225,7 +214,6 @@ function AnswerEngine() {
                   </p>
                 </div>
 
-                {/* License Permits */}
                 <div className="border border-slate-200 rounded-xl p-6">
                   <h3 className="text-lg font-semibold mb-3">License Permits</h3>
                   <p className="text-slate-700 leading-relaxed">
@@ -233,7 +221,6 @@ function AnswerEngine() {
                   </p>
                 </div>
 
-                {/* Compliance */}
                 <div className="border border-slate-200 rounded-xl p-6">
                   <h3 className="text-lg font-semibold mb-3">Compliance</h3>
                   <p className="text-slate-700 leading-relaxed">
@@ -241,7 +228,6 @@ function AnswerEngine() {
                   </p>
                 </div>
 
-                {/* Certificates */}
                 <div className="border border-slate-200 rounded-xl p-6">
                   <h3 className="text-lg font-semibold mb-3">Certificates</h3>
                   <p className="text-slate-700 leading-relaxed">
@@ -249,7 +235,6 @@ function AnswerEngine() {
                   </p>
                 </div>
 
-                {/* IP Advice */}
                 <div className="border border-slate-200 rounded-xl p-6">
                   <h3 className="text-lg font-semibold mb-3">IP Advice</h3>
                   <p className="text-slate-700 leading-relaxed">
@@ -257,7 +242,6 @@ function AnswerEngine() {
                   </p>
                 </div>
 
-                {/* Legal Roadmap */}
                 <div className="border border-slate-200 rounded-xl p-6">
                   <h3 className="text-lg font-semibold mb-3">Legal Roadmap</h3>
                   <p className="text-slate-700 leading-relaxed">
@@ -265,7 +249,6 @@ function AnswerEngine() {
                   </p>
                 </div>
 
-                {/* Reference Links */}
                 <div className="border border-slate-200 rounded-xl p-6">
                   <h3 className="text-lg font-semibold mb-3">Reference Links</h3>
                   {complianceResults.reference_links && Array.isArray(complianceResults.reference_links) ? (
@@ -302,7 +285,6 @@ function AnswerEngine() {
         )}
       </div>
 
-      {/* Detailed Grant Information Modal */}
       {selectedGrant && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 px-4">
           <div className="bg-white rounded-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">

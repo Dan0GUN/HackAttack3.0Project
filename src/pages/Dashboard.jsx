@@ -14,7 +14,8 @@ import {
 function Dashboard() {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { answers, recommendedGrants, setAnswers, setRecommendedGrants } = useQuestionnaire();
+  const { answers, recommendedGrants, setAnswers, setRecommendedGrants } =
+    useQuestionnaire();
 
   const [showTour, setShowTour] = useState(false);
   const [tourStep, setTourStep] = useState(0);
@@ -199,75 +200,55 @@ function Dashboard() {
           </div>
         </div>
 
-        {diagnosticCompleted ? (
+        {diagnosticCompleted && (
           <div className="bg-white rounded-xl border border-slate-200 p-8">
             <div className="flex justify-between items-start mb-6 gap-4">
               <div>
                 <h2 className="text-2xl mb-2">Your AI-Powered Funding Matches</h2>
-
-                {answers?.industry && answers?.stage && answers?.location && (
-                  <p className="text-sm text-slate-500">
-                    Based on your {answers.stage.toLowerCase()}{" "}
-                    {answers.industry.toLowerCase()} startup in {answers.location}.
-                  </p>
-                )}
+                <p className="text-slate-500">
+                  Based on your questionnaire answers, here are your current results.
+                </p>
               </div>
 
               <button
                 onClick={handleResetQuestionnaire}
                 className="px-4 py-2 text-sm border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors"
               >
-                Retake
+                Retake Questionnaire
               </button>
             </div>
 
-            <div className="space-y-4">
-              {recommendedGrants.map((grant, index) => (
+            <div className="space-y-3">
+              <div className="flex items-start gap-4 p-5 bg-slate-50 rounded-lg">
+                <div className="w-7 h-7 bg-black rounded-full flex items-center justify-center"></div>
+                <div>
+                  <h4>Startup Profile</h4>
+                  <p className="text-sm text-slate-500">
+                    Based on your {answers?.stage?.toLowerCase() || "current"}{" "}
+                    {answers?.industry?.toLowerCase() || "startup"} startup in{" "}
+                    {answers?.location || "your location"}.
+                  </p>
+                </div>
+              </div>
+
+              {recommendedGrants.slice(0, 3).map((grant, index) => (
                 <div
-                  key={`${grant.name || "grant"}-${index}`}
+                  key={grant.id || index}
                   className="flex items-start gap-4 p-5 border border-slate-200 rounded-lg"
                 >
                   <div className="w-7 h-7 bg-black text-white rounded-full flex items-center justify-center text-sm">
                     {index + 1}
                   </div>
-
                   <div>
-                    <h4>{grant.name || "Unnamed Grant"}</h4>
+                    <h4>{grant.name}</h4>
                     <p className="text-sm text-slate-500">
-                      {grant.amount || "Amount not provided"}
+                      {grant.organization}
+                      {grant.amount ? ` • ${grant.amount}` : ""}
                     </p>
-                    <p className="text-sm text-slate-600 mt-1">
-                      {grant.reason || "No explanation provided."}
-                    </p>
-
-                    {grant.url && (
-                      <a
-                        href={grant.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-sm text-blue-600 hover:underline mt-2 inline-block"
-                      >
-                        View program →
-                      </a>
-                    )}
                   </div>
                 </div>
               ))}
             </div>
-          </div>
-        ) : (
-          <div className="bg-white rounded-xl border border-slate-200 p-8">
-            <h2 className="text-2xl mb-4">Your AI-Powered Roadmap</h2>
-            <p className="text-slate-500 mb-6">
-              Complete the diagnostic questionnaire to receive personalized funding matches.
-            </p>
-
-            <button
-              onClick={handleDiagnostic}
-              className="px-5 py-2 bg-black text-white rounded-lg hover:bg-slate-800 transition-colors"
-            >
-              Start Diagnostic
-            </button>
           </div>
         )}
       </main>
