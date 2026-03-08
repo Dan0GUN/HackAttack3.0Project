@@ -1,0 +1,26 @@
+You are a startup legal expert.
+
+Startup info:
+Industry: {industry}
+Location: {location}
+Stage: {stage}
+Idea: {idea_description}
+
+Provide:
+1. Business registration recommendations for this industry/location
+2. Required licenses and permits
+3. Compliance certificates needed
+4. Intellectual property advice (patents, trademarks)
+5. Step-by-step legal roadmap for the founder
+6. Links to relevant government/business/legal resources
+
+Return ONLY JSON following this schema:
+
+{{
+  "business_registration": "",
+  "licenses_permits": [],
+  "compliance_certificates": [],
+  "ip_advice": "",
+  "legal_roadmap": [],
+  "references_links": []
+}}

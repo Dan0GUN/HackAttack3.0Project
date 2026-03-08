@@ -9,13 +9,9 @@ import ProtectedRoute from "./components/ProtectedRoute";
 function App() {
   return (
     <BrowserRouter>
-
       <Routes>
-
-        {/* Login page */}
         <Route path="/" element={<Login />} />
 
-        {/* Dashboard (protected) */}
         <Route
           path="/dashboard"
           element={
@@ -25,7 +21,6 @@ function App() {
           }
         />
 
-        {/* Profile (protected) */}
         <Route
           path="/profile"
           element={
@@ -35,14 +30,16 @@ function App() {
           }
         />
 
-        {/* Questionnaire (protected) */}
         <Route
           path="/Questionnaire"
-          element={<Questionnaire />}
+          element={
+            <ProtectedRoute>
+              <Questionnaire />
+            </ProtectedRoute>
+          }
         />
 
       </Routes>
-
     </BrowserRouter>
   );
 }

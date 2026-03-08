@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { auth } from "../firebase";
+
 import {
   signInWithEmailAndPassword,
   GoogleAuthProvider,
@@ -25,7 +26,7 @@ function Login() {
       alert(error.message);
     }
   };
-
+  
   const loginGoogle = async () => {
     try {
       const provider = new GoogleAuthProvider();
@@ -39,14 +40,13 @@ function Login() {
 
   const loginGithub = async () => {
     try {
-      const provider = new GithubAuthProvider();
-      await signInWithPopup(auth, provider);
-      navigate("/dashboard");
+        const provider = new GithubAuthProvider();
+        await signInWithPopup(auth, provider);
+        navigate("/dashboard");
     } catch (error) {
-      console.error(error);
-      alert(error.message);
+        console.error(error);
     }
-  };
+    };
 
   return (
     <div className="min-h-screen bg-white flex items-start justify-center px-6 pt-10">

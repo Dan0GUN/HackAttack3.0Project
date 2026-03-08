@@ -9,6 +9,7 @@ class StartUpInfo(BaseModel):
     funding_need: float
     business_model: str
     target_market: str
+    idea_description: str
 
 class PromptRequest(BaseModel):
     prompt: str
